@@ -6,10 +6,10 @@ __pycache__/
 .ipynb_checkpoints/
 
 # Downloaded datasets and original recordings
-/data/cogbci/
-/EEG_flipcup/
-/Eyes open eyes closed/
-/Behavioral Data/
+/data/cogbci/*.zip
+/data/cogbci/**/*.part
+/data/cogbci/*.log
+/data/cogbci/*.pid
 /Video/
 
 # Temporary download metadata

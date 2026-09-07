@@ -1,0 +1,65 @@
+{
+  "source_checksum": "md5:23f1f74cced86b40a0a956c67bba74fb",
+  "files": [
+    {
+      "path": "sub-01/ses-S1/behavioral/Flanker.mat",
+      "size": 2214,
+      "sha256": "16adda0b4280486d2e17ae53f9684f8e9828430383652fe8a3b565bac6d67ba4"
+    },
+    {
+      "path": "sub-01/ses-S1/chanlocs/get_chanlocs.txt",
+      "size": 2479,
+      "sha256": "c42bc54a33a7920bb481603549e4755f1fcc2d4abfb10e9536232364370e77ba"
+    },
+    {
+      "path": "sub-01/ses-S1/eeg/Flanker.fdt",
+      "size": 76447476,
+      "sha256": "519f71ea4a3c88371de5b0063f98772f1a27f62a1e8e4936783ed6dd5d64f8a4"
+    },
+    {
+      "path": "sub-01/ses-S1/eeg/Flanker.set",
+      "size": 1612248,
+      "sha256": "3a299616b7a056ce496d58beec18f6fe30834d34378dc49b0dbd275d33b97a9a"
+    },
+    {
+      "path": "sub-01/ses-S2/behavioral/Flanker.mat",
+      "size": 2294,
+      "sha256": "c67899c5db48c8669d2e288a08fab6e1f6abafde8615000838ace12d3a4ff59a"
+    },
+    {
+      "path": "sub-01/ses-S2/chanlocs/get_chanlocs.txt",
+      "size": 2479,
+      "sha256": "bc0512a31293aee0113514f03fa7252edbabc683fade419000d7bfcf45898f99"
+    },
+    {
+      "path": "sub-01/ses-S2/eeg/Flanker.fdt",
+      "size": 76159188,
+      "sha256": "c9298d5242f055d292f9cbeabfa2d0248ae7f043fcf9b4ec3046eeb1c485fa45"
+    },
+    {
+      "path": "sub-01/ses-S2/eeg/Flanker.set",
+      "size": 1606344,
+      "sha256": "174d2c786923208e0e6e4be109aacc0cd45d100345b66dffdba374a022cecc34"
+    },
+    {
+      "path": "sub-01/ses-S3/behavioral/Flanker.mat",
+      "size": 2190,
+      "sha256": "854ee836063cb2b809a3d45a895f3702e6f41e32e3ddc54ee24c8cabbff869d3"
+    },
+    {
+      "path": "sub-01/ses-S3/chanlocs/get_chanlocs.txt",
+      "size": 2479,
+      "sha256": "bede8f06a0a37ec8ad754d27cbe68d9f1761c73ea063a123db8fc3ee6ccba965"
+    },
+    {
+      "path": "sub-01/ses-S3/eeg/Flanker.fdt",
+      "size": 76439412,
+      "sha256": "c486402aaddd174656f0244abfd9ede7a055c7988ab692786c51f56c092026d2"
+    },
+    {
+      "path": "sub-01/ses-S3/eeg/Flanker.set",
+      "size": 1587376,
+      "sha256": "aabf98664d921984e8ed5184f7cebc15374c58d667a04268858fceaf6121b23e"
+    }
+  ]
+}

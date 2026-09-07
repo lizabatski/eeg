@@ -1,0 +1,445 @@
+{
+  "created": "2022-12-08T09:58:01.282190+00:00",
+  "modified": "2024-07-15T15:00:26.498693+00:00",
+  "id": 7413650,
+  "conceptrecid": "6874128",
+  "doi": "10.5281/zenodo.7413650",
+  "conceptdoi": "10.5281/zenodo.6874128",
+  "doi_url": "https://doi.org/10.5281/zenodo.7413650",
+  "metadata": {
+    "title": "COG-BCI database: A multi-session and multi-task EEG cognitive dataset for passive brain-computer interfaces",
+    "doi": "10.5281/zenodo.7413650",
+    "publication_date": "2022-12-08",
+    "description": "<p>Brain-Computer Interfaces, and especially passive Brain-Computer Interfaces (pBCI), with their ability to estimate and detect mental states, are receiving increasing attention from both the scientific and the research and development communities. Many pBCIs aim to increase the safety of complex work environments such as in the aeronautical domain. Therefore, mental workload, vigilance and decision-making are some of the most commonly examined aspects of cognition within this field of research. A large proportion of pBCIs involve a component of machine learning and signal processing as the data that are collected need to be transformed into a reliable estimate of the users&rsquo; current mental state (e.g. mental workload). Improving this component is a major challenge for researchers, requiring large quantities of data. While data sharing is common for the active BCI community, open pBCI datasets are scarcer and generally incomplete with regards to the information they report. This is particularly true for datasets encompassing several tasks or sessions, which are of importance for tackling the challenges of transfer learning. Testing new pipelines, feature extraction algorithms and classifiers are central issues for future advances in research within this domain, as well as for algorithm benchmark and research reproducibility.The COG-BCI database presented here is comprised of the recordings of 29 participants over 3 individual sessions with 4 different tasks designed to elicit different cognitive states. This results in a total of over 100 hours of open electrophysiological (EEG) and electrocardiogram (ECG) data. The project was validated by the local ethical committee of the University of Toulouse (CER number 2021-342). The dataset was validated on a subjective, behavioral and physiological level (i.e. cardiac and cerebral activity), to ensure its usefulness to the pBCI community. This body of work represents a large effort to promote the use of pBCIs, as well as the use of open science.</p>\n\n<p>&nbsp;</p>\n\n<p><strong>The data are in the Brain Imaging Data Structure (BIDS) format. For more information, please read the COG-BCI_info.pdf file.</strong></p>\n\n<p><strong>Please note that version 4 corrected an electrode name mismatch, for which we sincerely apologize. The answers to the RSME and KSS questionnaires are provided in two separate .txt files.</strong></p>",
+    "access_right": "open",
+    "creators": [
+      {
+        "name": "Hinss, Marcel F.",
+        "affiliation": "ISAE-SUPAERO, Univ. Toulouse, France"
+      },
+      {
+        "name": "Jahanpour, Emilie S.",
+        "affiliation": "ISAE-SUPAERO, Univ. Toulouse, France"
+      },
+      {
+        "name": "Somon, Bertille",
+        "affiliation": "ISAE-SUPAERO, Univ. Toulouse, France"
+      },
+      {
+        "name": "Pluchon, Lou",
+        "affiliation": "ISAE-SUPAERO, Univ. Toulouse, France"
+      },
+      {
+        "name": "Dehais, Fr\u00e9d\u00e9ric",
+        "affiliation": "ISAE-SUPAERO, Univ. Toulouse, France"
+      },
+      {
+        "name": "Roy, Rapha\u00eblle N.",
+        "affiliation": "ISAE-SUPAERO, Univ. Toulouse, France"
+      }
+    ],
+    "keywords": [
+      "EEG",
+      "Passive BCI",
+      "PVT",
+      "N-back",
+      "MATB",
+      "Flanker"
+    ],
+    "version": "4",
+    "language": "eng",
+    "resource_type": {
+      "title": "Dataset",
+      "type": "dataset"
+    },
+    "license": {
+      "id": "cc-by-4.0"
+    },
+    "relations": {
+      "version": [
+        {
+          "index": 3,
+          "is_last": true,
+          "parent": {
+            "pid_type": "recid",
+            "pid_value": "6874128"
+          }
+        }
+      ]
+    },
+    "notes": "This database has been created as part of a project validated by the local ethical committee of the University of Toulouse (CER number 2021-342)."
+  },
+  "title": "COG-BCI database: A multi-session and multi-task EEG cognitive dataset for passive brain-computer interfaces",
+  "links": {
+    "self": "https://zenodo.org/api/records/7413650",
+    "self_html": "https://zenodo.org/records/7413650",
+    "preview_html": "https://zenodo.org/records/7413650?preview=1",
+    "doi": "https://doi.org/10.5281/zenodo.7413650",
+    "self_doi": "https://doi.org/10.5281/zenodo.7413650",
+    "self_doi_html": "https://zenodo.org/doi/10.5281/zenodo.7413650",
+    "reserve_doi": "https://zenodo.org/api/records/7413650/draft/pids/doi",
+    "parent": "https://zenodo.org/api/records/6874128",
+    "parent_html": "https://zenodo.org/records/6874128",
+    "parent_doi": "https://doi.org/10.5281/zenodo.6874128",
+    "parent_doi_html": "https://zenodo.org/doi/10.5281/zenodo.6874128",
+    "self_iiif_manifest": "https://zenodo.org/api/iiif/record:7413650/manifest",
+    "self_iiif_sequence": "https://zenodo.org/api/iiif/record:7413650/sequence/default",
+    "files": "https://zenodo.org/api/records/7413650/files",
+    "media_files": "https://zenodo.org/api/records/7413650/media-files",
+    "thumbnails": {
+      "10": "https://zenodo.org/api/iiif/record:7413650:COG-BCI_info.pdf/full/%5E10,/0/default.jpg",
+      "50": "https://zenodo.org/api/iiif/record:7413650:COG-BCI_info.pdf/full/%5E50,/0/default.jpg",
+      "100": "https://zenodo.org/api/iiif/record:7413650:COG-BCI_info.pdf/full/%5E100,/0/default.jpg",
+      "250": "https://zenodo.org/api/iiif/record:7413650:COG-BCI_info.pdf/full/%5E250,/0/default.jpg",
+      "750": "https://zenodo.org/api/iiif/record:7413650:COG-BCI_info.pdf/full/%5E750,/0/default.jpg",
+      "1200": "https://zenodo.org/api/iiif/record:7413650:COG-BCI_info.pdf/full/%5E1200,/0/default.jpg"
+    },
+    "archive": "https://zenodo.org/api/records/7413650/files-archive",
+    "archive_media": "https://zenodo.org/api/records/7413650/media-files-archive",
+    "latest": "https://zenodo.org/api/records/7413650/versions/latest",
+    "latest_html": "https://zenodo.org/records/7413650/latest",
+    "versions": "https://zenodo.org/api/records/7413650/versions",
+    "draft": "https://zenodo.org/api/records/7413650/draft",
+    "access_links": "https://zenodo.org/api/records/7413650/access/links",
+    "access_grants": "https://zenodo.org/api/records/7413650/access/grants",
+    "access_users": "https://zenodo.org/api/records/7413650/access/users",
+    "access_request": "https://zenodo.org/api/records/7413650/access/request",
+    "access": "https://zenodo.org/api/records/7413650/access",
+    "communities": "https://zenodo.org/api/records/7413650/communities",
+    "communities-suggestions": "https://zenodo.org/api/records/7413650/communities-suggestions",
+    "request_deletion": "https://zenodo.org/api/records/7413650/request-deletion",
+    "file_modification": "https://zenodo.org/api/records/7413650/file-modification",
+    "quota_increase": "https://zenodo.org/api/records/7413650/quota-increase",
+    "requests": "https://zenodo.org/api/records/7413650/requests"
+  },
+  "updated": "2024-07-15T15:00:26.498693+00:00",
+  "recid": "7413650",
+  "revision": 5,
+  "files": [
+    {
+      "id": "e53ef3bc-b2fd-485f-b83f-6eaf8086d918",
+      "key": "sub-11.zip",
+      "size": 1126840983,
+      "checksum": "md5:c63aab36869315fa7303c76c4bfaa0e6",
+      "links": {
+        "self": "https://zenodo.org/api/records/7413650/files/sub-11.zip/content"
+      }
+    },
+    {
+      "id": "a1d131c1-1dd8-4d5f-89d0-ba04c8787555",
+      "key": "COG-BCI_info.pdf",
+      "size": 223785,
+      "checksum": "md5:cecae8707280dc2251b8ca6c48a7302d",
+      "links": {
+        "self": "https://zenodo.org/api/records/7413650/files/COG-BCI_info.pdf/content"
+      }
+    },
+    {
+      "id": "9806bc40-8ccc-4b56-b47f-d08b1b6a0624",
+      "key": "KSS.txt",
+      "size": 6307,
+      "checksum": "md5:e44478cb22f7520daa88ca418f4e2a92",
+      "links": {
+        "self": "https://zenodo.org/api/records/7413650/files/KSS.txt/content"
+      }
+    },
+    {
+      "id": "bc7fe2e7-3820-42e6-bdec-8198bc88232c",
+      "key": "notebook.mat",
+      "size": 4651,
+      "checksum": "md5:aed8373beb94cd719eb37c49d4fa0d54",
+      "links": {
+        "self": "https://zenodo.org/api/records/7413650/files/notebook.mat/content"
+      }
+    },
+    {
+      "id": "e1d5609a-1a56-414e-9673-39ba9233114e",
+      "key": "RSME.txt",
+      "size": 20550,
+      "checksum": "md5:ab2ac797cd82b3ea3e20321ce6c86c29",
+      "links": {
+        "self": "https://zenodo.org/api/records/7413650/files/RSME.txt/content"
+      }
+    },
+    {
+      "id": "ccc083ad-3d45-4df7-b388-78c7a1c9e874",
+      "key": "sub-01.zip",
+      "size": 1096627416,
+      "checksum": "md5:23f1f74cced86b40a0a956c67bba74fb",
+      "links": {
+        "self": "https://zenodo.org/api/records/7413650/files/sub-01.zip/content"
+      }
+    },
+    {
+      "id": "b5a76570-fdda-47f3-9faa-e14467281fdf",
+      "key": "sub-02.zip",
+      "size": 1077561911,
+      "checksum": "md5:f3f0b80c9752494c7e0eaba2b5cba63b",
+      "links": {
+        "self": "https://zenodo.org/api/records/7413650/files/sub-02.zip/content"
+      }
+    },
+    {
+      "id": "0f345fb4-27af-4256-8ab2-f4c440753ff7",
+      "key": "sub-03.zip",
+      "size": 1091918375,
+      "checksum": "md5:3120766d0e2d65ef0299980381f4aa3e",
+      "links": {
+        "self": "https://zenodo.org/api/records/7413650/files/sub-03.zip/content"
+      }
+    },
+    {
+      "id": "adfad946-0a10-4bae-b745-43164db21f4e",
+      "key": "sub-04.zip",
+      "size": 1061048048,
+      "checksum": "md5:613ae1a3937261ba07ff239f80f6ebf9",
+      "links": {
+        "self": "https://zenodo.org/api/records/7413650/files/sub-04.zip/content"
+      }
+    },
+    {
+      "id": "7ef76dd0-9420-419b-b66b-dcfed9e5f1de",
+      "key": "sub-05.zip",
+      "size": 1028766446,
+      "checksum": "md5:9395a89068a247dc1f28bee677a2522d",
+      "links": {
+        "self": "https://zenodo.org/api/records/7413650/files/sub-05.zip/content"
+      }
+    },
+    {
+      "id": "13841c03-f6e6-4a21-ba27-e0526722269f",
+      "key": "sub-06.zip",
+      "size": 1047170742,
+      "checksum": "md5:da029812690e0e352d7b4a3f2f3231f3",
+      "links": {
+        "self": "https://zenodo.org/api/records/7413650/files/sub-06.zip/content"
+      }
+    },
+    {
+      "id": "6cb06657-9353-4e6b-a4ad-e25dcc3b0b85",
+      "key": "sub-07.zip",
+      "size": 1038697112,
+      "checksum": "md5:1c7778dd78b514108d20c39bd13f83b0",
+      "links": {
+        "self": "https://zenodo.org/api/records/7413650/files/sub-07.zip/content"
+      }
+    },
+    {
+      "id": "399e4515-fde5-40fe-a248-6e9fce24d715",
+      "key": "sub-08.zip",
+      "size": 1075163598,
+      "checksum": "md5:3ddf5876b2ed252d7210be6bb5c54b79",
+      "links": {
+        "self": "https://zenodo.org/api/records/7413650/files/sub-08.zip/content"
+      }
+    },
+    {
+      "id": "65d43035-427c-4098-b480-87ed09499efb",
+      "key": "sub-09.zip",
+      "size": 1068933020,
+      "checksum": "md5:84e52f812865cc500f3c8d39b82a3d5f",
+      "links": {
+        "self": "https://zenodo.org/api/records/7413650/files/sub-09.zip/content"
+      }
+    },
+    {
+      "id": "43f91e0b-552d-4bc6-91db-319b430f615b",
+      "key": "sub-10.zip",
+      "size": 1077684921,
+      "checksum": "md5:3470c8890aa6ae5bd684c2a4127554f8",
+      "links": {
+        "self": "https://zenodo.org/api/records/7413650/files/sub-10.zip/content"
+      }
+    },
+    {
+      "id": "00c1cf11-26d4-440c-bad5-71c739c2a781",
+      "key": "sub-12.zip",
+      "size": 1121359309,
+      "checksum": "md5:7fda5b987eb6374a257b142b839fcd28",
+      "links": {
+        "self": "https://zenodo.org/api/records/7413650/files/sub-12.zip/content"
+      }
+    },
+    {
+      "id": "53bee871-b43f-47f9-9682-3bcd708c4f9e",
+      "key": "sub-13.zip",
+      "size": 1083674913,
+      "checksum": "md5:f0b00c46f9f2c6088e4d9a8b0affea81",
+      "links": {
+        "self": "https://zenodo.org/api/records/7413650/files/sub-13.zip/content"
+      }
+    },
+    {
+      "id": "5424be68-ed1a-443b-b196-0b5a305cfd72",
+      "key": "sub-14.zip",
+      "size": 1092417518,
+      "checksum": "md5:03e164e277d89070c30fa59424cd78c4",
+      "links": {
+        "self": "https://zenodo.org/api/records/7413650/files/sub-14.zip/content"
+      }
+    },
+    {
+      "id": "ce5d5352-1542-42eb-a033-f448ed4afb5b",
+      "key": "sub-15.zip",
+      "size": 1109991868,
+      "checksum": "md5:1fd226373725dc3783d33a8c62ed06d6",
+      "links": {
+        "self": "https://zenodo.org/api/records/7413650/files/sub-15.zip/content"
+      }
+    },
+    {
+      "id": "b91df1e5-9253-48b0-8ee8-9765dfab5ff1",
+      "key": "sub-16.zip",
+      "size": 1090030460,
+      "checksum": "md5:0dbab52411a3d8c2a07f7b2d749039c9",
+      "links": {
+        "self": "https://zenodo.org/api/records/7413650/files/sub-16.zip/content"
+      }
+    },
+    {
+      "id": "71b98703-4a6a-4425-960a-a38a1fecdcfd",
+      "key": "sub-17.zip",
+      "size": 1090536096,
+      "checksum": "md5:1c81adb20356f3f1429df7d0dd7bb914",
+      "links": {
+        "self": "https://zenodo.org/api/records/7413650/files/sub-17.zip/content"
+      }
+    },
+    {
+      "id": "fe5f35d6-af9f-4efb-bcdc-93a7f7d9efa2",
+      "key": "sub-18.zip",
+      "size": 1109262532,
+      "checksum": "md5:76999fc70c7fd2d9ddbd9138deb14f8d",
+      "links": {
+        "self": "https://zenodo.org/api/records/7413650/files/sub-18.zip/content"
+      }
+    },
+    {
+      "id": "59dde4e1-939c-45b2-9bad-689c4356f712",
+      "key": "triggerlist.txt",
+      "size": 1922,
+      "checksum": "md5:6c3b173794158d0a3298ad602e162b7a",
+      "links": {
+        "self": "https://zenodo.org/api/records/7413650/files/triggerlist.txt/content"
+      }
+    },
+    {
+      "id": "10661c8d-4357-4c39-9550-32f2f885bf2b",
+      "key": "sub-29.zip",
+      "size": 1091533809,
+      "checksum": "md5:cfee23041f75b86b9e7d6f671c633287",
+      "links": {
+        "self": "https://zenodo.org/api/records/7413650/files/sub-29.zip/content"
+      }
+    },
+    {
+      "id": "80b82515-727f-4f0e-9c97-6e9e7ce9cff8",
+      "key": "sub-28.zip",
+      "size": 1111741947,
+      "checksum": "md5:4d3862026ba6775f29b68a0c2b32e5f7",
+      "links": {
+        "self": "https://zenodo.org/api/records/7413650/files/sub-28.zip/content"
+      }
+    },
+    {
+      "id": "37e60267-3648-4489-8a45-a4f7cc4f263d",
+      "key": "sub-27.zip",
+      "size": 1090533893,
+      "checksum": "md5:0751c82f0cbeb2ee07e8ecec66d2797c",
+      "links": {
+        "self": "https://zenodo.org/api/records/7413650/files/sub-27.zip/content"
+      }
+    },
+    {
+      "id": "bc81ad46-31d5-479d-9183-b4aa149ced7b",
+      "key": "sub-26.zip",
+      "size": 1121018183,
+      "checksum": "md5:e650edc8edcbbb295f3fa49f0bc9c62d",
+      "links": {
+        "self": "https://zenodo.org/api/records/7413650/files/sub-26.zip/content"
+      }
+    },
+    {
+      "id": "b9d73fe3-4a95-48a5-a4ff-ada0166b96f5",
+      "key": "sub-25.zip",
+      "size": 1089821633,
+      "checksum": "md5:bbe75eb0758ff331f0807b242ee3119c",
+      "links": {
+        "self": "https://zenodo.org/api/records/7413650/files/sub-25.zip/content"
+      }
+    },
+    {
+      "id": "8509d31d-2493-4178-86a5-f0afb12e0d76",
+      "key": "sub-24.zip",
+      "size": 1121684870,
+      "checksum": "md5:b3af9f114daa6f8a6022db580e9e012c",
+      "links": {
+        "self": "https://zenodo.org/api/records/7413650/files/sub-24.zip/content"
+      }
+    },
+    {
+      "id": "2e7934de-7c38-4982-8da8-aa178e7a5903",
+      "key": "sub-23.zip",
+      "size": 1079124591,
+      "checksum": "md5:e2cdcf884ca801b10951a2ede52d53cb",
+      "links": {
+        "self": "https://zenodo.org/api/records/7413650/files/sub-23.zip/content"
+      }
+    },
+    {
+      "id": "a2190e63-ab71-425d-abdc-33ffe81ac6e2",
+      "key": "sub-22.zip",
+      "size": 1144512791,
+      "checksum": "md5:4cfd73876a2de9b87a381260d750900d",
+      "links": {
+        "self": "https://zenodo.org/api/records/7413650/files/sub-22.zip/content"
+      }
+    },
+    {
+      "id": "d8f3f71f-e107-4e20-9c0c-9cad17b45dd7",
+      "key": "sub-21.zip",
+      "size": 1116697785,
+      "checksum": "md5:34a1bb2d9f95e5c7664c0fd6c2f00333",
+      "links": {
+        "self": "https://zenodo.org/api/records/7413650/files/sub-21.zip/content"
+      }
+    },
+    {
+      "id": "13bea404-a558-4b2c-9ed5-ba9bb605b79c",
+      "key": "sub-20.zip",
+      "size": 1116043019,
+      "checksum": "md5:6db83600139c2d075e96593d1a692ff1",
+      "links": {
+        "self": "https://zenodo.org/api/records/7413650/files/sub-20.zip/content"
+      }
+    },
+    {
+      "id": "1c13dbad-f7b4-4560-9bf3-84ee92a93087",
+      "key": "sub-19.zip",
+      "size": 1117484516,
+      "checksum": "md5:fe9b49a82ce7c4b0fadb2b9e7900bb65",
+      "links": {
+        "self": "https://zenodo.org/api/records/7413650/files/sub-19.zip/content"
+      }
+    }
+  ],
+  "swh": {},
+  "owners": [
+    {
+      "id": "234057"
+    }
+  ],
+  "status": "published",
+  "stats": {
+    "downloads": 118729,
+    "unique_downloads": 53606,
+    "views": 11240,
+    "unique_views": 9927,
+    "version_downloads": 71532,
+    "version_unique_downloads": 28379,
+    "version_unique_views": 3751,
+    "version_views": 4517
+  },
+  "state": "done",
+  "submitted": true
+}

@@ -1,0 +1,63 @@
+code,content
+600,ZEROBACK Start
+6011,ZEROBACK Block Start
+6012,ZEROBACK Block End
+6021,ZEROBACK Normal Trial Onset
+6022,ZEROBACK Hit Trial Onset
+6023,ZEROBACK Conflict Trial Onset
+6031,ZEROBACK Error Response;
+6032,ZEROBACK Correct Response
+6033,ZEROBACK Conflict Error
+601,ZEROBACK End
+610,ONEBACK Start
+6111,ONEBACK Block Start
+6112,ONEBACK Block End
+6121,ONEBACK Normal Trial Onset
+6122,ONEBACK Hit Trial Onset
+6123,ONEBACK Conflict Trial Onset
+6131,ONEBACK Error Response;
+6132,ONEBACK Correct Response
+6133,ONEBACK Conflict Error
+611,ONEBACK End
+620,TWOBACK Start/End
+6211,TWOBACK Block Start
+6212,TWOBACK Block End
+6221,TWOBACK Normal Trial Onset
+6222,TWOBACK Hit Trial Onset
+6223,TWOBACK Conflict Trial Onset
+6231,TWOBACK Error Response;
+6232,TWOBACK Correct Response
+6233,TWOBACK Conflict Error
+621,TWOBACK End
+20,FLANKER Start
+210,FLANKER Trial/ISI Start
+221,FLANKER Error ISI
+222,FLANKER Error FIXI
+23,FLANKER Fixation Cross
+241,FLANKER Stimulus cong
+2511,FLANKER Response Correct cong
+2521,FLANKER Response Incorrect cong
+25121,FLANKER Response Correct Feedback cong
+25221,FLANKER Response Incorrect Feedback cong
+25321,FLANKER Missed Response Feedback cong
+21,FLANKER End
+242,FLANKER Stimulus incong
+2512,FLANKER Response Correct incong
+2522,FLANKER Response Incorrect incong
+25122,FLANKER Response Correct Feedback incong
+25222,FLANKER Response Incorrect Feedback incong
+25322,FLANKER Missed Response Feedback incong
+10,PVT Start
+11,PVT Trial/ISI Start
+12,PVT ISI Error
+13,PVT Stimulus
+14,PVT Response
+15,PVT  End
+50,RestingState End Eyes open Beginning
+51,RestingState End Eyes open End
+40,RestingState Beginning Eyes open Beginning
+41,RestingState Beginning Eyes open End
+42,RestingState Beginning Eyes closed Beginning 
+43,RestingState Beginning Eyes closed End 
+52,RestingState End Eyes closed Beginning 
+53,RestingState End Eyes closed End 

@@ -1,0 +1,5 @@
+# Preserve scientific source data byte-for-byte across operating systems.
+"Behavioral Data/**" -text
+EEG_flipcup/** -text
+"Eyes open eyes closed/**" -text
+data/cogbci/** -text
