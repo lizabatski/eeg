@@ -1,0 +1,21 @@
+# Local Python environment and generated caches
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Downloaded datasets and original recordings
+/data/cogbci/
+/EEG_flipcup/
+/Eyes open eyes closed/
+/Behavioral Data/
+/Video/
+
+# Temporary download metadata
+/cog_metadata.tmp.json
+
+# Local credentials
+.env
+.env.*
+!.env.example

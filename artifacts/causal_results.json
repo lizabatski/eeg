@@ -1,0 +1,47 @@
+{
+  "window_seconds": 1.5,
+  "preprocessing": "causal fourth-order Butterworth 1-40 Hz",
+  "evaluation": "leave-one-session-out; unweighted mean of two session AUROCs",
+  "sessions": [
+    {
+      "test_session": 1,
+      "train_session": 2,
+      "n": 50,
+      "failures": 34,
+      "auc": 0.505514705882353,
+      "accuracy": 0.52,
+      "training_majority_baseline_accuracy": 0.32,
+      "excluded": {
+        "ambiguous_or_missing_outcome": 0,
+        "startup": 0,
+        "artifact": 0,
+        "nonfinite": 0
+      }
+    },
+    {
+      "test_session": 2,
+      "train_session": 1,
+      "n": 50,
+      "failures": 24,
+      "auc": 0.4230769230769231,
+      "accuracy": 0.44,
+      "training_majority_baseline_accuracy": 0.48,
+      "excluded": {
+        "ambiguous_or_missing_outcome": 0,
+        "startup": 0,
+        "artifact": 0,
+        "nonfinite": 0
+      }
+    }
+  ],
+  "mean_session_auc": 0.4642958144796381,
+  "permutation_p": 0.6813186813186813,
+  "permutation_count": 1000,
+  "seed": 0,
+  "limitations": [
+    "One participant, two sessions; no population generalization.",
+    "Exploratory reanalysis of previously inspected data, not preregistered.",
+    "Label shuffles preserve session counts but assume within-session exchangeability; temporal dependence may invalidate that assumption.",
+    "Fixed amplitude screening; no EOG regression or adaptive rejection."
+  ]
+}

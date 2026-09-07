@@ -1,0 +1,191 @@
+{
+  "blocks": [
+    {
+      "condition": "Rest",
+      "block": 1,
+      "start_s": 132.511719,
+      "stop_s": 152.527344,
+      "accepted": 8,
+      "rejected": 0,
+      "mean_alpha": -0.10033788685425374
+    },
+    {
+      "condition": "Rest",
+      "block": 2,
+      "start_s": 266.455078,
+      "stop_s": 286.466797,
+      "accepted": 8,
+      "rejected": 0,
+      "mean_alpha": -0.12807262972493122
+    },
+    {
+      "condition": "Rest",
+      "block": 3,
+      "start_s": 398.314453,
+      "stop_s": 418.326172,
+      "accepted": 8,
+      "rejected": 0,
+      "mean_alpha": -0.10503914260392669
+    },
+    {
+      "condition": "Rest",
+      "block": 4,
+      "start_s": 527.923828,
+      "stop_s": 547.935547,
+      "accepted": 8,
+      "rejected": 0,
+      "mean_alpha": -0.1326149764031282
+    },
+    {
+      "condition": "Task",
+      "block": 5,
+      "start_s": 21.296875,
+      "stop_s": 41.302734,
+      "accepted": 8,
+      "rejected": 0,
+      "mean_alpha": -0.9092000322123012
+    },
+    {
+      "condition": "Task",
+      "block": 6,
+      "start_s": 56.150391,
+      "stop_s": 76.150391,
+      "accepted": 8,
+      "rejected": 0,
+      "mean_alpha": -0.9707086187298126
+    },
+    {
+      "condition": "Task",
+      "block": 7,
+      "start_s": 82.230469,
+      "stop_s": 102.298828,
+      "accepted": 8,
+      "rejected": 0,
+      "mean_alpha": -0.9418654837018914
+    },
+    {
+      "condition": "Task",
+      "block": 8,
+      "start_s": 107.962891,
+      "stop_s": 128.013672,
+      "accepted": 8,
+      "rejected": 0,
+      "mean_alpha": -0.8756541126235927
+    },
+    {
+      "condition": "Task",
+      "block": 9,
+      "start_s": 161.576172,
+      "stop_s": 181.595703,
+      "accepted": 8,
+      "rejected": 0,
+      "mean_alpha": -0.9277591960976905
+    },
+    {
+      "condition": "Task",
+      "block": 10,
+      "start_s": 189.890625,
+      "stop_s": 209.90625,
+      "accepted": 8,
+      "rejected": 0,
+      "mean_alpha": -0.7823419724924672
+    },
+    {
+      "condition": "Task",
+      "block": 11,
+      "start_s": 216.984375,
+      "stop_s": 236.988281,
+      "accepted": 8,
+      "rejected": 0,
+      "mean_alpha": -0.8846150062527485
+    },
+    {
+      "condition": "Task",
+      "block": 12,
+      "start_s": 243.134766,
+      "stop_s": 263.15625,
+      "accepted": 8,
+      "rejected": 0,
+      "mean_alpha": -0.6938785031410353
+    },
+    {
+      "condition": "Task",
+      "block": 13,
+      "start_s": 293.46875,
+      "stop_s": 313.486328,
+      "accepted": 8,
+      "rejected": 0,
+      "mean_alpha": -0.8975785473459326
+    },
+    {
+      "condition": "Task",
+      "block": 14,
+      "start_s": 320.982422,
+      "stop_s": 340.986328,
+      "accepted": 8,
+      "rejected": 0,
+      "mean_alpha": -0.8562791637739123
+    },
+    {
+      "condition": "Task",
+      "block": 15,
+      "start_s": 349.615234,
+      "stop_s": 369.619141,
+      "accepted": 8,
+      "rejected": 0,
+      "mean_alpha": -0.8057232420647837
+    },
+    {
+      "condition": "Task",
+      "block": 16,
+      "start_s": 375.748047,
+      "stop_s": 395.783203,
+      "accepted": 8,
+      "rejected": 0,
+      "mean_alpha": -0.793788286860599
+    },
+    {
+      "condition": "Task",
+      "block": 17,
+      "start_s": 426.498047,
+      "stop_s": 446.529297,
+      "accepted": 8,
+      "rejected": 0,
+      "mean_alpha": -0.7678040410218854
+    },
+    {
+      "condition": "Task",
+      "block": 18,
+      "start_s": 451.962891,
+      "stop_s": 472.011719,
+      "accepted": 8,
+      "rejected": 0,
+      "mean_alpha": -0.8894214493045662
+    },
+    {
+      "condition": "Task",
+      "block": 19,
+      "start_s": 478.855469,
+      "stop_s": 498.861328,
+      "accepted": 8,
+      "rejected": 0,
+      "mean_alpha": -0.833138016431036
+    },
+    {
+      "condition": "Task",
+      "block": 20,
+      "start_s": 504.789062,
+      "stop_s": 524.841797,
+      "accepted": 8,
+      "rejected": 0,
+      "mean_alpha": -0.8237380515029705
+    }
+  ],
+  "block_weighted_means": {
+    "Rest": -0.11651615889655996,
+    "Task": -0.8533433577223266
+  },
+  "rest_task_geometric_power_ratio": 5.455407530144628,
+  "interpretation": "Descriptive posterior-alpha contrast, not a prediction accuracy or proof of pipeline correctness.",
+  "caveat": "Marker-defined rest versus active task. Eye-state interpretation is not independently verified here; conditions also differ in task engagement. Windows are not independent subjects."
+}

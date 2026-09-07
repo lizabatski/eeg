@@ -1,0 +1,12 @@
+
+mne>=1.12            
+antio>=0.7           
+numpy>=2.0
+scipy>=1.14
+pandas>=2.2          
+scikit-learn>=1.5   
+matplotlib>=3.9
+mne-qt-browser>=0.6 
+PyQt6>=6.6           
+pylsl>=1.16          
+jupyterlab>=4.0
