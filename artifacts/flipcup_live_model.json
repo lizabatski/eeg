@@ -1,0 +1,64 @@
+{
+  "model_id": "flipcup-causal-ant-v1",
+  "channels": [
+    "Fz",
+    "P3",
+    "Pz",
+    "P4",
+    "Oz",
+    "O1",
+    "O2"
+  ],
+  "feature_names": [
+    "theta_frontal",
+    "theta_posterior",
+    "alpha_frontal",
+    "alpha_posterior",
+    "alpha_low_frontal",
+    "alpha_low_posterior",
+    "alpha_high_frontal",
+    "alpha_high_posterior",
+    "beta_frontal",
+    "beta_posterior",
+    "ratio_alpha_theta"
+  ],
+  "window_seconds": 1.5,
+  "target_sample_rate_hz": 250.0,
+  "filter_band_hz": [
+    1.0,
+    40.0
+  ],
+  "filter_order": 4,
+  "artifact_threshold_microvolts": 150.0,
+  "label": "flip_cup_failure",
+  "evaluation": {
+    "strategy": "leave-one-session-out",
+    "sessions": [
+      {
+        "held_out_session": 1,
+        "n": 50,
+        "failures": 34,
+        "auc": 0.4761029411764707,
+        "accuracy_at_0_5": 0.44
+      },
+      {
+        "held_out_session": 2,
+        "n": 50,
+        "failures": 24,
+        "auc": 0.3830128205128205,
+        "accuracy_at_0_5": 0.4
+      }
+    ],
+    "mean_auc": 0.4295578808446456,
+    "pooled_training_trials": 100,
+    "pooled_training_failures": 58
+  },
+  "software": {
+    "numpy": "2.3.5",
+    "scipy": "1.17.1",
+    "scikit_learn": "1.9.1",
+    "mne": "1.13.2",
+    "joblib": "1.6.0"
+  },
+  "warning": "Experimental demonstration model. Held-out evaluation did not establish prediction above chance and this is not a validated cognitive-load measure."
+}

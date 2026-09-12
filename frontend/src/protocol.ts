@@ -1,5 +1,5 @@
-export type SourceMode = "replay" | "unicorn";
-export type SourceName = "recorded_replay" | "live_unicorn";
+export type SourceMode = "replay" | "unicorn" | "ant";
+export type SourceName = "recorded_replay" | "live_unicorn" | "live_ant";
 
 export type MetadataMessage = {
   type: "metadata";
@@ -49,7 +49,9 @@ export function parseServerMessage(raw: string): ServerMessage {
   if (message.type === "metadata") {
     if (
       message.schema_version !== 1 ||
-      !["recorded_replay", "live_unicorn"].includes(String(message.source)) ||
+      !["recorded_replay", "live_unicorn", "live_ant"].includes(
+        String(message.source),
+      ) ||
       message.units !== "microvolts" ||
       !Array.isArray(message.channel_names) ||
       !message.channel_names.every((name) => typeof name === "string") ||

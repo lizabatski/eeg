@@ -1,4 +1,4 @@
-"""Run the COG-BCI-compatible PsychoPy flanker task."""
+"""Run a short 30-trial flanker calibration/demo with the embedded EEG panel."""
 from __future__ import annotations
 
 import argparse
@@ -41,24 +41,17 @@ def main() -> None:
     parser.add_argument("--risk-threshold", type=float, default=0.5)
     parser.add_argument("--risk-rearm-threshold", type=float, default=0.45)
     parser.add_argument("--intervention-cooldown", type=float, default=10.0)
-    parser.add_argument("--calibration-seconds", type=float, default=120.0)
     parser.add_argument(
-        "--first-condition",
-        choices=("control", "intervention"),
-        default="control",
-        help="Condition used for the first of two blocks",
+        "--calibration-seconds",
+        type=float,
+        default=60.0,
+        help="Demo calibration duration; 60 seconds permits 30 clean windows",
     )
     parser.add_argument(
         "--engine-threshold",
         type=float,
         default=0.6,
         help="MockEngine intervention threshold",
-    )
-    parser.add_argument(
-        "--engine-stale-rate",
-        type=float,
-        default=0.02,
-        help="MockEngine probability of returning a stale state",
     )
     parser.add_argument(
         "--eeg-websocket-url",
@@ -84,8 +77,6 @@ def main() -> None:
     args = parser.parse_args()
     if not 0 <= args.engine_threshold <= 1:
         parser.error("--engine-threshold must be between 0 and 1")
-    if not 0 <= args.engine_stale_rate <= 1:
-        parser.error("--engine-stale-rate must be between 0 and 1")
     if not 0 < args.risk_threshold < 1:
         parser.error("--risk-threshold must be between zero and one")
     if not 0 <= args.risk_rearm_threshold < args.risk_threshold:
@@ -115,19 +106,16 @@ def main() -> None:
         model_id = engine.model_id
         feedback_heading = "Experimental Flanker lapse risk"
     else:
-        engine = MockEngine(
-            seed=args.seed,
-            threshold=args.engine_threshold,
-            stale_rate=args.engine_stale_rate,
-        )
+        engine = MockEngine(seed=args.seed, threshold=args.engine_threshold)
         engine_mode = "mock"
         model_id = ""
         feedback_heading = "Mental state feedback (simulation)"
+
     output = run_experiment(
         participant=args.participant,
         engine=engine,
         seed=args.seed,
-        first_condition=args.first_condition,
+        first_condition="intervention",
         output_dir=ROOT / "results",
         eeg_websocket_url=(
             None
@@ -143,6 +131,8 @@ def main() -> None:
             )
             else None
         ),
+        trials_per_block=30,
+        condition_sequence=(True,),
         engine_mode=engine_mode,
         model_id=model_id,
         feedback_heading=feedback_heading,

@@ -168,27 +168,90 @@ python scripts/02_train_flipcup.py       # ~2 min (permutation tests)
 ### PsychoPy flanker task
 
 The task runs two 120-trial blocks: one control block and one block where fresh
-`MockEngine` interventions can show a 1.5 s reset cue. It uses the verified
-COG-BCI stimulus set (60 congruent and 60 incongruent trials per block; no
-neutral condition).
+engine interventions can show a reset cue. The cue waits for an explicit SPACE
+confirmation, then presents a fresh 2-second fixation before the next stimulus.
+It uses the verified COG-BCI stimulus set (60 congruent and 60 incongruent
+trials per block; no neutral condition).
 
-Use a display mode with a stable refresh rate, close programs that can interrupt
-full-screen presentation, then run:
+During the intervention block, the embedded EEG panel shows `Fz`, `Pz`, `O1`,
+and `O2`. Live mode labels its output as **Experimental predicted failure
+risk**, with **Proceed** below threshold and **Calm down** above it. Mock mode
+is explicitly labelled as simulation. The panel and feedback are hidden in the
+control block, and stale or uncalibrated engine states never produce guidance.
+The chart is not drawn during the timing-critical 16 ms stimulus frame.
+
+Train the deployment model from the locally verified COG-BCI Flanker sessions:
+
+```bash
+./.venv/Scripts/python.exe scripts/12_train_cogbci_flanker.py  # Windows Git Bash
+./.venv/bin/python scripts/12_train_cogbci_flanker.py          # macOS
+```
+
+This creates `artifacts/cogbci_flanker_live_model.joblib` and its JSON manifest.
+The current local dataset contains subjects 1 and 2, with three sessions each.
+The lapse label is an incorrect/missed response or a correct-response RT above
+that subject's 75th percentile. Of 720 trials, 329 passed the fixed artifact
+screen. Leave-one-subject-out mean AUROC is 0.405, so this model did not
+generalize above chance and live use remains strictly experimental.
+
+Start the EEG WebSocket backend first. For the live ANT stream:
 
 ```powershell
 # Windows
-.\.venv\Scripts\python.exe scripts/09_flanker_task.py --participant P001
+.\.venv\Scripts\python.exe scripts/10_eeg_wave_server.py --ant-lsl-stream-name "EXACT_EEGO_STREAM_NAME"
 ```
 
 ```bash
 # macOS
-./.venv/bin/python scripts/09_flanker_task.py --participant P001
+./.venv/bin/python scripts/10_eeg_wave_server.py --ant-lsl-stream-name "EXACT_EEGO_STREAM_NAME"
 ```
 
-Use `--first-condition intervention` to reverse the block order. The
-`--engine-threshold` and `--engine-stale-rate` options expose the documented
-`MockEngine` test cases. Escape aborts cleanly. Trial data is flushed after every
-trial to `results/<participant>_flanker_<timestamp>.csv`.
+Then, in a second terminal, use a stable display refresh rate, close programs
+that can interrupt full-screen presentation, and run:
+
+```powershell
+# Windows
+.\.venv\Scripts\python.exe scripts/09_flanker_task.py --participant P001 --engine live --ant-lsl-stream-name "EXACT_EEGO_STREAM_NAME" --eeg-source ant
+```
+
+```bash
+# macOS
+./.venv/bin/python scripts/09_flanker_task.py --participant P001 --engine live --ant-lsl-stream-name "EXACT_EEGO_STREAM_NAME" --eeg-source ant
+```
+
+For a shorter calibration/demo, run one 30-trial intervention block:
+
+```bash
+# Windows Git Bash
+./.venv/Scripts/python.exe scripts/09_flanker_demo.py --participant DEMO --engine live --ant-lsl-stream-name "EXACT_EEGO_STREAM_NAME" --eeg-source ant
+
+# macOS
+./.venv/bin/python scripts/09_flanker_demo.py --participant DEMO --engine live --ant-lsl-stream-name "EXACT_EEGO_STREAM_NAME" --eeg-source ant
+```
+
+During calibration, the live EEG panel is visible and a **Calibrating…**
+indicator reports elapsed and remaining time in the upper-right corner. The
+full task calibrates for 120 seconds and the 30-trial demo for 60 seconds. Live
+mode requires at least 30 clean 1.5-second windows; the saved model's scaler
+remains fixed from the training dataset.
+
+Use `--first-condition intervention` to reverse the block order. Select
+`--engine mock` explicitly for simulated test cases; `--engine-threshold` and
+`--engine-stale-rate` configure only that mode. Live mode uses the saved model,
+a 0.5 risk threshold, a 0.45 re-arm threshold, and a 10-second intervention
+cooldown. Use `--eeg-source replay` or `--eeg-source unicorn` to request those
+visualization sources. If a requested live visualization is unavailable, the
+panel switches to the repository's flip-cup recording and displays
+**FLIP-CUP REPLAY (NOT LIVE)**. Use `--require-live-eeg` to disable this recorded
+fallback, or `--no-eeg-panel` for a task run without the panel. Escape aborts
+cleanly. Trial data is flushed after every trial to
+`results/<participant>_flanker_<timestamp>.csv`.
+
+The classifier reads ANT LSL directly when available. If ANT cannot be opened,
+it uses the bundled Flip Cup session in a continuous loop and labels feedback
+as **Experimental replay risk (NOT LIVE)**; the CSV records
+`classification_source=recorded_replay`. Use `--require-live-eeg` when replay
+must not control interventions. Stale classifier samples always suppress cues.
 
 At startup PsychoPy measures the display refresh rate and refuses to continue if
 it cannot represent the 16 ms stimulus accurately. The CSV records actual
@@ -226,9 +289,26 @@ Select **Live Unicorn** in the browser. The backend requires the official
 250 Hz Unicorn stream and reads its first eight EEG channels as
 `Fz, C3, Cz, C4, Pz, PO7, Oz, PO8`.
 
+For live ANT data from another computer, put both machines on the same LAN. In
+eego, open **Application Options → Network Operation**, enable **LSL EEG
+streaming**, and start acquisition. Start this backend with the exact advertised
+LSL stream name:
+
+```bash
+./.venv/Scripts/python.exe scripts/10_eeg_wave_server.py \
+  --ant-lsl-stream-name "EXACT_EEGO_STREAM_NAME"
+```
+
+Then select **Live ANT** in the browser. ANT channels, sampling rate, timestamps,
+and voltage units are read from LSL metadata. Missing or ambiguous metadata is
+rejected rather than guessed. By default, every channel explicitly measured in
+volts or microvolts is displayed; non-voltage event or counter channels are
+excluded. Use `--ant-channels Fz P3 Pz P4 Oz O1 O2` to request a smaller set.
+
 On Windows, pass `-Recording PATH`, `-Seconds 300`, or
-`-LslStreamName NAME`. On macOS, use `--recording PATH`, `--seconds 300`, or
-`--lsl-stream-name NAME`. The
+`-LslStreamName NAME`. The Windows launcher also accepts
+`-AntLslStreamName NAME`. On macOS, use `--recording PATH`, `--seconds 300`,
+`--lsl-stream-name NAME`, or `--ant-lsl-stream-name NAME`. The
 viewer explicitly reports missing recordings/channels, malformed data, and
 connections that stop delivering samples; it never substitutes generated data.
 

@@ -1,7 +1,8 @@
 param(
     [string]$Recording = "",
     [double]$Seconds = 90,
-    [string]$LslStreamName = "Unicorn"
+    [string]$LslStreamName = "Unicorn",
+    [string]$AntLslStreamName = ""
 )
 
 $ErrorActionPreference = "Stop"
@@ -32,6 +33,11 @@ $serverArguments = @(
     "--seconds", $Seconds,
     "--lsl-stream-name", "`"$LslStreamName`""
 )
+if ($AntLslStreamName -ne "") {
+    $serverArguments += @(
+        "--ant-lsl-stream-name", "`"$AntLslStreamName`""
+    )
+}
 $server = Start-Process -FilePath $python -ArgumentList $serverArguments -PassThru
 $web = Start-Process -FilePath "npm.cmd" -ArgumentList @("run", "dev") `
     -WorkingDirectory $frontend -PassThru

@@ -1,4 +1,4 @@
-"""Stream recorded ANT or live Unicorn LSL EEG over a local WebSocket."""
+"""Stream recorded ANT, live Unicorn, or live ANT LSL EEG over WebSocket."""
 from __future__ import annotations
 
 import argparse
@@ -16,6 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from neuroloop.eeg_sources import (
+    AntLslSource,
     EegSource,
     RecordedReplaySource,
     UnicornLslSource,
@@ -29,8 +30,8 @@ DEFAULT_RECORDING = (
 
 def _requested_source(path: str) -> str:
     values = parse_qs(urlparse(path).query).get("source", ["replay"])
-    if len(values) != 1 or values[0] not in {"replay", "unicorn"}:
-        raise ValueError("WebSocket source must be 'replay' or 'unicorn'")
+    if len(values) != 1 or values[0] not in {"replay", "unicorn", "ant"}:
+        raise ValueError("WebSocket source must be 'replay', 'unicorn', or 'ant'")
     return values[0]
 
 
@@ -82,6 +83,8 @@ def main() -> None:
     parser.add_argument("--speed", type=float, default=1.0)
     parser.add_argument("--channels", nargs="+")
     parser.add_argument("--lsl-stream-name", default="Unicorn")
+    parser.add_argument("--ant-lsl-stream-name")
+    parser.add_argument("--ant-channels", nargs="+")
     parser.add_argument("--lsl-timeout", type=float, default=5.0)
     args = parser.parse_args()
     if (
@@ -102,11 +105,19 @@ def main() -> None:
                 speed=args.speed,
                 channels=args.channels,
             )
+        if source_name == "unicorn":
+            return await asyncio.to_thread(
+                UnicornLslSource,
+                args.lsl_stream_name,
+                resolve_timeout=args.lsl_timeout,
+                chunk_seconds=args.chunk_seconds,
+            )
         return await asyncio.to_thread(
-            UnicornLslSource,
-            args.lsl_stream_name,
+            AntLslSource,
+            args.ant_lsl_stream_name or "",
             resolve_timeout=args.lsl_timeout,
             chunk_seconds=args.chunk_seconds,
+            requested_channels=args.ant_channels,
         )
 
     async def handler(websocket) -> None:
@@ -132,7 +143,7 @@ def main() -> None:
     async def run_server() -> None:
         print(
             f"EEG WebSocket: ws://{args.host}:{args.port} "
-            "(sources: replay, unicorn)",
+            "(sources: replay, unicorn, ant)",
             flush=True,
         )
         async with serve(handler, args.host, args.port, max_size=None):

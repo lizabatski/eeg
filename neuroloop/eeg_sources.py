@@ -10,7 +10,7 @@ import sys
 from typing import AsyncIterator, Protocol
 
 import mne
-from pylsl import StreamInlet, resolve_byprop
+from pylsl import StreamInfo, StreamInlet, resolve_byprop
 
 from .features import FRONTAL_MIDLINE, POSTERIOR
 
@@ -45,6 +45,85 @@ class EegSource(Protocol):
     def close(self) -> None:
         """Release the recording or live inlet."""
         ...
+
+
+@dataclass(frozen=True)
+class LslChannel:
+    label: str
+    kind: str
+    unit: str
+
+
+def _lsl_channel_metadata(info: StreamInfo) -> tuple[LslChannel, ...]:
+    """Read complete channel descriptors without inventing missing labels."""
+    node = info.desc().child("channels").child("channel")
+    channels: list[LslChannel] = []
+    for _ in range(info.channel_count()):
+        if node.empty():
+            break
+        channels.append(
+            LslChannel(
+                label=node.child_value("label").strip(),
+                kind=node.child_value("type").strip(),
+                unit=node.child_value("unit").strip(),
+            )
+        )
+        node = node.next_sibling()
+    if len(channels) != info.channel_count():
+        raise ValueError(
+            f"LSL stream declares {info.channel_count()} channels but provides "
+            f"metadata for {len(channels)}"
+        )
+    if any(not channel.label for channel in channels):
+        raise ValueError("LSL stream contains a channel without a label")
+    if len({channel.label.upper() for channel in channels}) != len(channels):
+        raise ValueError("LSL stream contains duplicate channel labels")
+    return tuple(channels)
+
+
+def _microvolt_multiplier(unit: str) -> float:
+    normalized = unit.strip().lower().replace("µ", "u").replace("μ", "u")
+    normalized = normalized.replace(" ", "")
+    if normalized in {"uv", "microvolt", "microvolts"}:
+        return 1.0
+    if normalized in {"v", "volt", "volts"}:
+        return 1e6
+    raise ValueError(
+        f"Unsupported or missing EEG channel unit {unit!r}; expected volts or microvolts"
+    )
+
+
+def _select_ant_channels(
+    channels: tuple[LslChannel, ...], requested: list[str] | None
+) -> tuple[tuple[int, ...], tuple[float, ...]]:
+    by_upper = {
+        channel.label.upper(): index for index, channel in enumerate(channels)
+    }
+    if requested:
+        missing = [name for name in requested if name.upper() not in by_upper]
+        if missing:
+            raise ValueError(
+                f"ANT stream is missing requested channels: {', '.join(missing)}"
+            )
+        picks = tuple(by_upper[name.upper()] for name in requested)
+        return picks, tuple(
+            _microvolt_multiplier(channels[index].unit) for index in picks
+        )
+
+    picks: list[int] = []
+    multipliers: list[float] = []
+    for index, channel in enumerate(channels):
+        try:
+            multiplier = _microvolt_multiplier(channel.unit)
+        except ValueError:
+            continue
+        picks.append(index)
+        multipliers.append(multiplier)
+    if not picks:
+        raise ValueError(
+            "ANT stream metadata contains no channels with volt or microvolt units"
+        )
+    return tuple(picks), tuple(multipliers)
 
 
 def _select_recording_channels(
@@ -93,6 +172,7 @@ class RecordedReplaySource:
         chunk_seconds: float,
         speed: float,
         channels: list[str] | None = None,
+        loop: bool = False,
     ) -> None:
         if not path.is_file():
             raise FileNotFoundError(f"Recording does not exist: {path}")
@@ -112,6 +192,7 @@ class RecordedReplaySource:
         )
         self._chunk_samples = max(1, round(chunk_seconds * self._sample_rate))
         self._speed = speed
+        self._loop = loop
         self.metadata = EegMetadata(
             source="recorded_replay",
             channel_names=tuple(self._raw.ch_names[index] for index in self._picks),
@@ -122,25 +203,31 @@ class RecordedReplaySource:
 
     async def chunks(self) -> AsyncIterator[EegChunk]:
         loop = asyncio.get_running_loop()
-        started = loop.time()
-        for sequence, start in enumerate(
-            range(0, self._stop_sample, self._chunk_samples)
-        ):
-            stop = min(start + self._chunk_samples, self._stop_sample)
-            target_time = started + (stop / self._sample_rate) / self._speed
-            await asyncio.sleep(max(0.0, target_time - loop.time()))
-            values = await asyncio.to_thread(
-                self._raw.get_data, self._picks, start, stop
-            )
-            values_uv = values * 1e6
-            timestamps = tuple(
-                sample / self._sample_rate for sample in range(start, stop)
-            )
-            yield EegChunk(
-                sequence=sequence,
-                timestamps_s=timestamps,
-                values_uv=tuple(tuple(channel) for channel in values_uv.tolist()),
-            )
+        sequence = 0
+        timestamp_offset = 0.0
+        while True:
+            started = loop.time()
+            for start in range(0, self._stop_sample, self._chunk_samples):
+                stop = min(start + self._chunk_samples, self._stop_sample)
+                target_time = started + (stop / self._sample_rate) / self._speed
+                await asyncio.sleep(max(0.0, target_time - loop.time()))
+                values = await asyncio.to_thread(
+                    self._raw.get_data, self._picks, start, stop
+                )
+                values_uv = values * 1e6
+                timestamps = tuple(
+                    timestamp_offset + sample / self._sample_rate
+                    for sample in range(start, stop)
+                )
+                yield EegChunk(
+                    sequence=sequence,
+                    timestamps_s=timestamps,
+                    values_uv=tuple(tuple(channel) for channel in values_uv.tolist()),
+                )
+                sequence += 1
+            if not self._loop:
+                return
+            timestamp_offset += self._stop_sample / self._sample_rate
 
     def close(self) -> None:
         self._raw.close()
@@ -244,6 +331,116 @@ class UnicornLslSource:
                 tuple(sample[channel] for sample in selected_samples)
                 for channel in range(len(UNICORN_EEG_CHANNELS))
             )
+            yield EegChunk(
+                sequence=sequence,
+                timestamps_s=source_timestamps,
+                values_uv=values_uv,
+            )
+            sequence += 1
+
+    def close(self) -> None:
+        self._inlet.close_stream()
+
+
+class AntLslSource:
+    """Receive a metadata-described ANT/eego EEG stream over LSL."""
+
+    def __init__(
+        self,
+        stream_name: str,
+        *,
+        resolve_timeout: float,
+        chunk_seconds: float,
+        requested_channels: list[str] | None = None,
+        idle_timeout: float = 2.0,
+    ) -> None:
+        if not stream_name.strip():
+            raise ValueError(
+                "ANT LSL stream name is required; pass --ant-lsl-stream-name"
+            )
+        if resolve_timeout <= 0 or chunk_seconds <= 0 or idle_timeout <= 0:
+            raise ValueError("LSL timeouts and chunk size must be positive")
+
+        streams = resolve_byprop(
+            "name", stream_name, minimum=1, timeout=resolve_timeout
+        )
+        if not streams:
+            raise ConnectionError(
+                f"No LSL stream named {stream_name!r}. "
+                "Enable LSL EEG streaming in eego and start acquisition."
+            )
+        if len(streams) != 1:
+            raise ConnectionError(
+                f"Found {len(streams)} LSL streams named {stream_name!r}; "
+                "configure a unique eego stream name."
+            )
+
+        short_info = streams[0]
+        sample_rate = float(short_info.nominal_srate())
+        if not math.isfinite(sample_rate) or sample_rate <= 0:
+            raise ValueError(
+                f"ANT stream {stream_name!r} must report a fixed positive sample rate"
+            )
+        self._inlet = StreamInlet(
+            short_info,
+            max_buflen=5,
+            max_chunklen=max(1, round(chunk_seconds * sample_rate)),
+        )
+        try:
+            self._inlet.open_stream(timeout=resolve_timeout)
+            full_info = self._inlet.info(timeout=resolve_timeout)
+            channels = _lsl_channel_metadata(full_info)
+            picks, multipliers = _select_ant_channels(
+                channels, requested_channels
+            )
+        except Exception:
+            self._inlet.close_stream()
+            raise
+
+        self._picks = tuple(picks)
+        self._multipliers = multipliers
+        self._sample_rate = sample_rate
+        self._chunk_samples = max(1, round(chunk_seconds * sample_rate))
+        self._idle_timeout = idle_timeout
+        self.metadata = EegMetadata(
+            source="live_ant",
+            channel_names=tuple(channels[index].label for index in picks),
+            sample_rate_hz=sample_rate,
+            duration_seconds=None,
+            timestamp_origin_s=None,
+        )
+
+    async def chunks(self) -> AsyncIterator[EegChunk]:
+        loop = asyncio.get_running_loop()
+        last_data_at = loop.time()
+        sequence = 0
+        while True:
+            samples, timestamps = await asyncio.to_thread(
+                self._inlet.pull_chunk,
+                0.25,
+                self._chunk_samples,
+            )
+            if not samples:
+                if loop.time() - last_data_at >= self._idle_timeout:
+                    raise ConnectionError("ANT LSL stream stopped delivering samples")
+                continue
+            last_data_at = loop.time()
+            if len(samples) != len(timestamps):
+                raise ValueError("ANT LSL samples and timestamps differ in length")
+            if any(len(sample) <= max(self._picks) for sample in samples):
+                raise ValueError("ANT LSL sample is shorter than its channel metadata")
+
+            values_uv = tuple(
+                tuple(float(sample[pick]) * multiplier for sample in samples)
+                for pick, multiplier in zip(self._picks, self._multipliers)
+            )
+            if not all(
+                math.isfinite(value) for channel in values_uv for value in channel
+            ):
+                raise ValueError("ANT LSL stream contains a non-finite EEG value")
+            source_timestamps = tuple(float(timestamp) for timestamp in timestamps)
+            if not all(math.isfinite(timestamp) for timestamp in source_timestamps):
+                raise ValueError("ANT LSL stream contains a non-finite timestamp")
             yield EegChunk(
                 sequence=sequence,
                 timestamps_s=source_timestamps,

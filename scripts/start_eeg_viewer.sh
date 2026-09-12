@@ -8,9 +8,10 @@ SERVER_SCRIPT="$ROOT/scripts/10_eeg_wave_server.py"
 RECORDING="$ROOT/EEG_flipcup/Ewing_Patrick_2026-08-10_13-07-25_session-01.cnt"
 SECONDS=90
 LSL_STREAM_NAME="Unicorn"
+ANT_LSL_STREAM_NAME=""
 
 usage() {
-    echo "Usage: $0 [--recording PATH] [--seconds NUMBER] [--lsl-stream-name NAME]"
+    echo "Usage: $0 [--recording PATH] [--seconds NUMBER] [--lsl-stream-name NAME] [--ant-lsl-stream-name NAME]"
 }
 
 while [[ $# -gt 0 ]]; do
@@ -28,6 +29,11 @@ while [[ $# -gt 0 ]]; do
         --lsl-stream-name)
             [[ $# -ge 2 ]] || { usage >&2; exit 2; }
             LSL_STREAM_NAME="$2"
+            shift 2
+            ;;
+        --ant-lsl-stream-name)
+            [[ $# -ge 2 ]] || { usage >&2; exit 2; }
+            ANT_LSL_STREAM_NAME="$2"
             shift 2
             ;;
         --help|-h)
@@ -71,10 +77,16 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
-"$PYTHON" "$SERVER_SCRIPT" \
-    --file "$RECORDING" \
-    --seconds "$SECONDS" \
-    --lsl-stream-name "$LSL_STREAM_NAME" &
+SERVER_ARGS=(
+    "$SERVER_SCRIPT"
+    --file "$RECORDING"
+    --seconds "$SECONDS"
+    --lsl-stream-name "$LSL_STREAM_NAME"
+)
+if [[ -n "$ANT_LSL_STREAM_NAME" ]]; then
+    SERVER_ARGS+=(--ant-lsl-stream-name "$ANT_LSL_STREAM_NAME")
+fi
+"$PYTHON" "${SERVER_ARGS[@]}" &
 SERVER_PID=$!
 
 (

@@ -28,6 +28,18 @@ type ViewerStatus =
   | "finished"
   | "error";
 
+const SOURCE_NAMES = {
+  replay: "recorded_replay",
+  unicorn: "live_unicorn",
+  ant: "live_ant",
+} as const;
+
+const SOURCE_LABELS = {
+  replay: "Recorded EEG replay",
+  unicorn: "Live Unicorn EEG",
+  ant: "Live ANT EEG",
+} as const;
+
 type Buffers = {
   times: number[];
   channels: Array<Array<number | null>>;
@@ -155,8 +167,7 @@ export default function App() {
           if (message.channel_names.length === 0 || message.sample_rate_hz <= 0) {
             throw new Error("Metadata contains no usable EEG channels");
           }
-          const expectedSource =
-            selectedSource === "replay" ? "recorded_replay" : "live_unicorn";
+          const expectedSource = SOURCE_NAMES[selectedSource];
           if (message.source !== expectedSource) {
             throw new Error(`Backend returned unexpected source ${message.source}`);
           }
@@ -295,9 +306,7 @@ export default function App() {
         </div>
         <div className="header-status">
           <span className="source-badge">
-            {selectedSource === "replay"
-              ? "Recorded EEG replay"
-              : "Live Unicorn EEG"}
+            {SOURCE_LABELS[selectedSource]}
           </span>
           <span className={`status status-${status}`}>{status}</span>
         </div>
@@ -324,6 +333,14 @@ export default function App() {
             onClick={() => setSelectedSource("unicorn")}
           >
             Live Unicorn
+          </button>
+          <button
+            type="button"
+            className={selectedSource === "ant" ? "active" : ""}
+            aria-pressed={selectedSource === "ant"}
+            onClick={() => setSelectedSource("ant")}
+          >
+            Live ANT
           </button>
         </div>
       </section>
@@ -352,8 +369,7 @@ export default function App() {
       <section className="waveforms" aria-label="EEG channels">
         {!metadata && status === "connecting" && (
           <div className="empty-state">
-            Waiting for {selectedSource === "replay" ? "replay" : "Unicorn LSL"}{" "}
-            metadata…
+            Waiting for {SOURCE_LABELS[selectedSource]} metadata…
           </div>
         )}
         {metadata?.channel_names.map((name, index) => (

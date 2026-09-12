@@ -1,0 +1,77 @@
+{
+  "model_id": "cogbci-flanker-lapse-ant-v1",
+  "channels": [
+    "Fz",
+    "P3",
+    "Pz",
+    "P4",
+    "Oz",
+    "O1",
+    "O2"
+  ],
+  "feature_names": [
+    "theta_frontal",
+    "theta_posterior",
+    "alpha_frontal",
+    "alpha_posterior",
+    "alpha_low_frontal",
+    "alpha_low_posterior",
+    "alpha_high_frontal",
+    "alpha_high_posterior",
+    "beta_frontal",
+    "beta_posterior",
+    "ratio_alpha_theta"
+  ],
+  "window_seconds": 1.5,
+  "target_sample_rate_hz": 250.0,
+  "filter_band_hz": [
+    1.0,
+    40.0
+  ],
+  "filter_order": 4,
+  "artifact_threshold_microvolts": 150.0,
+  "label": "cogbci_flanker_lapse",
+  "evaluation": {
+    "strategy": "leave-one-subject-out",
+    "subjects": [
+      {
+        "held_out_subject": 1,
+        "n": 261,
+        "lapses": 102,
+        "reaction_time_75th_percentile_s": 0.8325000000000067,
+        "auc": 0.3431372549019608,
+        "accuracy_at_0_5": 0.3371647509578544
+      },
+      {
+        "held_out_subject": 2,
+        "n": 68,
+        "lapses": 19,
+        "reaction_time_75th_percentile_s": 0.8259999999999934,
+        "auc": 0.4661654135338346,
+        "accuracy_at_0_5": 0.35294117647058826
+      }
+    ],
+    "mean_auc": 0.4046513342178977,
+    "training_subjects": [
+      1,
+      2
+    ],
+    "training_sessions": 6,
+    "available_trials": 720,
+    "retained_trials_by_subject": {
+      "1": 261,
+      "2": 68
+    },
+    "pooled_training_trials": 329,
+    "pooled_training_lapses": 121,
+    "lapse_definition": "incorrect or missed response, or correct-response RT above the subject's 75th percentile"
+  },
+  "software": {
+    "numpy": "2.3.5",
+    "scipy": "1.17.1",
+    "scikit_learn": "1.9.1",
+    "mne": "1.13.2",
+    "joblib": "1.6.0"
+  },
+  "warning": "Experimental demonstration model. Held-out evaluation did not establish prediction above chance and this is not a validated cognitive-load measure."
+}
