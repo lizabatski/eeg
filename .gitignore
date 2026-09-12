@@ -4,6 +4,9 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 .ipynb_checkpoints/
+/results/
+/frontend/node_modules/
+/frontend/dist/
 
 # Downloaded datasets and original recordings
 /data/cogbci/*.zip

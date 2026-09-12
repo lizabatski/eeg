@@ -146,10 +146,91 @@ accuracy is the difference between a clean pre-stimulus epoch and mush.
 
 ## Running
 
+Create the Python 3.11 environment and install the project dependencies:
+
+```powershell
+# Windows
+py -3.11 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+```
+
+```bash
+# macOS
+python3.11 -m venv .venv
+./.venv/bin/python -m pip install -r requirements.txt
+```
+
 ```bash
 python scripts/01_validate_spectral.py   # must pass before trusting anything
 python scripts/02_train_flipcup.py       # ~2 min (permutation tests)
 ```
+
+### PsychoPy flanker task
+
+The task runs two 120-trial blocks: one control block and one block where fresh
+`MockEngine` interventions can show a 1.5 s reset cue. It uses the verified
+COG-BCI stimulus set (60 congruent and 60 incongruent trials per block; no
+neutral condition).
+
+Use a display mode with a stable refresh rate, close programs that can interrupt
+full-screen presentation, then run:
+
+```powershell
+# Windows
+.\.venv\Scripts\python.exe scripts/09_flanker_task.py --participant P001
+```
+
+```bash
+# macOS
+./.venv/bin/python scripts/09_flanker_task.py --participant P001
+```
+
+Use `--first-condition intervention` to reverse the block order. The
+`--engine-threshold` and `--engine-stale-rate` options expose the documented
+`MockEngine` test cases. Escape aborts cleanly. Trial data is flushed after every
+trial to `results/<participant>_flanker_<timestamp>.csv`.
+
+At startup PsychoPy measures the display refresh rate and refuses to continue if
+it cannot represent the 16 ms stimulus accurately. The CSV records actual
+stimulus onset/offset and response timing for review.
+
+### EEG waveform viewer
+
+The optional viewer runs independently from PsychoPy so browser rendering cannot
+affect trial timing. It shows a rolling 10-second raw-voltage trace and lets the
+operator switch between the recorded ANT replay and a live Unicorn LSL stream.
+
+Install its browser dependencies once on either platform:
+
+```bash
+cd frontend
+npm install
+cd ..
+```
+
+Then launch the EEG server and viewer in its own browser window:
+
+```powershell
+# Windows
+.\scripts\start_eeg_viewer.ps1
+```
+
+```bash
+# macOS
+bash ./scripts/start_eeg_viewer.sh
+```
+
+For live data, open Unicorn Suite's **DevTools → Unicorn LSL Interface**, select
+the headset, keep the stream name `Unicorn`, and click **Open**, then **Start**.
+Select **Live Unicorn** in the browser. The backend requires the official
+250 Hz Unicorn stream and reads its first eight EEG channels as
+`Fz, C3, Cz, C4, Pz, PO7, Oz, PO8`.
+
+On Windows, pass `-Recording PATH`, `-Seconds 300`, or
+`-LslStreamName NAME`. On macOS, use `--recording PATH`, `--seconds 300`, or
+`--lsl-stream-name NAME`. The
+viewer explicitly reports missing recordings/channels, malformed data, and
+connections that stop delivering samples; it never substitutes generated data.
 
 ## Notes on the provided data
 
