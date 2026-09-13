@@ -1,10 +1,12 @@
 """Download COG-BCI v4 from Zenodo, verifying published checksums."""
 import argparse
+from concurrent.futures import ThreadPoolExecutor
 import hashlib
 import json
 from pathlib import Path
 import time
 import urllib.request
+import urllib.error
 import zipfile
 import shutil
 
@@ -17,13 +19,22 @@ def extract_flanker(archive, entry):
     with zipfile.ZipFile(archive) as z:
         members = [i for i in z.infolist() if not i.is_dir() and
                    (Path(i.filename).name.lower() in ('flanker.set', 'flanker.fdt', 'flanker.mat', 'get_chanlocs.txt'))]
+        normalized = {}
+        for info in members:
+            parts = Path(info.filename).parts
+            while len(parts) > 1 and parts[0] == archive.stem and parts[1] == archive.stem:
+                parts = parts[1:]
+            relative_path = Path(*parts).as_posix()
+            if relative_path in normalized:
+                raise ValueError(f'Duplicate archive target: {relative_path}')
+            normalized[relative_path] = info
         for session in ('ses-S1', 'ses-S2', 'ses-S3'):
             for relative in ('eeg/Flanker.set', 'eeg/Flanker.fdt', 'behavioral/Flanker.mat', 'chanlocs/get_chanlocs.txt'):
                 expected = f'{archive.stem}/{session}/{relative}'
-                if expected not in [i.filename for i in members]:
+                if expected not in normalized:
                     raise ValueError(f'Missing required member: {expected}')
-        for info in members:
-            target = (ROOT / info.filename).resolve()
+        for relative_path, info in normalized.items():
+            target = (ROOT / relative_path).resolve()
             if not target.is_relative_to(ROOT.resolve() / archive.stem):
                 raise ValueError('Unsafe archive member')
             target.parent.mkdir(parents=True, exist_ok=True)
@@ -35,7 +46,7 @@ def extract_flanker(archive, entry):
             temporary.replace(target)
             with target.open('rb') as f:
                 digest = hashlib.file_digest(f, 'sha256').hexdigest()
-            records.append(dict(path=info.filename, size=info.file_size, sha256=digest))
+            records.append(dict(path=relative_path, archive_path=info.filename, size=info.file_size, sha256=digest))
     manifest_path.write_text(json.dumps(dict(source_checksum=entry['checksum'], files=records), indent=2), encoding='utf-8')
     # Only delete this explicitly verified source archive inside the dataset directory.
     if archive.resolve().parent != ROOT.resolve():
@@ -65,9 +76,15 @@ def extracted_verified(archive, entry):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--subjects', nargs='+', type=int, default=list(range(1, 6)))
+    selection = parser.add_mutually_exclusive_group()
+    selection.add_argument('--subjects', nargs='+', type=int, default=list(range(1, 6)))
+    selection.add_argument('--all-subjects', action='store_true', help='Download all 29 participants')
     parser.add_argument('--flanker-only', action='store_true', help='Extract flanker files and delete verified source archives')
+    parser.add_argument('--workers', type=int, choices=range(1, 5), default=1,
+                        help='Concurrent file downloads (1-4; default: 1)')
     args = parser.parse_args()
+    if args.all_subjects:
+        args.subjects = list(range(1, 30))
     if any(n < 1 or n > 29 for n in args.subjects):
         parser.error('subjects must be between 1 and 29')
     ROOT.mkdir(parents=True, exist_ok=True)
@@ -77,14 +94,14 @@ def main():
     selected = {f'sub-{n:02}.zip' for n in args.subjects}
     files = [f for f in metadata['files'] if not f['key'].endswith('.zip') or f['key'] in selected]
     files.sort(key=lambda f: (f['key'].endswith('.zip'), f['key']))
-    for entry in files:
+    def download_entry(entry):
         name = entry['key']
         if Path(name).name != name:
             raise ValueError('Unexpected filename')
         dest = ROOT / name
         if args.flanker_only and name.endswith('.zip') and extracted_verified(dest, entry):
             print(f'Already verified extracted flanker data: {name}', flush=True)
-            continue
+            return
         algorithm, expected = entry['checksum'].split(':', 1)
         def verified(path):
             if not path.exists() or path.stat().st_size != entry['size']:
@@ -95,7 +112,7 @@ def main():
             print(f'Already verified: {name}', flush=True)
             if args.flanker_only and name.endswith('.zip'):
                 extract_flanker(dest, entry)
-            continue
+            return
         partial = dest.with_suffix(dest.suffix + '.part')
         offset = partial.stat().st_size if partial.exists() else 0
         request = urllib.request.Request(entry['links']['self'], headers={'Range': f'bytes={offset}-'} if offset else {})
@@ -124,6 +141,19 @@ def main():
             print('Flanker entries: ' + str([n for n in members if 'flanker' in n.lower()]), flush=True)
             if args.flanker_only:
                 extract_flanker(dest, entry)
+    def download_with_retry(entry):
+        for attempt in range(5):
+            try:
+                download_entry(entry)
+                return
+            except (urllib.error.URLError, TimeoutError, ConnectionError) as error:
+                if attempt == 4:
+                    raise
+                print(f'Retrying {entry["key"]} after network error: {error}', flush=True)
+                time.sleep(min(5 * 2 ** attempt, 60))
+
+    with ThreadPoolExecutor(max_workers=args.workers) as executor:
+        list(executor.map(download_with_retry, files))
     print('Requested downloads complete: ' + str(ROOT), flush=True)
 
 

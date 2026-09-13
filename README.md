@@ -188,7 +188,36 @@ Train the deployment model from the locally verified COG-BCI Flanker sessions:
 ```
 
 This creates `artifacts/cogbci_flanker_live_model.joblib` and its JSON manifest.
-The current local dataset contains subjects 1 and 2, with three sessions each.
+The current saved model uses 12 participants (IDs 1–11 and 16), 36 sessions,
+and 2,830 retained trials out of 4,320. Mean leave-one-participant-out AUROC
+is 0.502, approximately chance. Reproduce this cohort with:
+
+```bash
+python scripts/12_train_cogbci_flanker.py --subjects 1 2 3 4 5 6 7 8 9 10 11 16
+python scripts/14_plot_cogbci_roc.py
+```
+
+The plotting script saves ROC figures and held-out predictions under `results/`.
+Presentation copies of the current ROC figures are in `artifacts/`.
+
+To download all 29 participants and retrain automatically, run:
+
+```powershell
+.\.venv\Scripts\python.exe scripts/13_refresh_cogbci.py
+```
+
+This retains the Flanker recordings, verifies downloaded checksums and extracted
+files, and evaluates the logistic regression by holding out each participant.
+It replaces the deployment artifacts only after all 29 participants and 87
+sessions are included and the saved model passes a loading/prediction check.
+Progress is in `results/cogbci_refresh.log`; completion or failure is recorded in
+`results/cogbci_refresh_status.json`. Previous artifacts are backed up under
+`results/cogbci_previous_model`. Do not run a second refresh/downloader while one
+is active. Rerun the same command after a failure to resume the download.
+
+The following figures describe the original two-participant artifact; after a
+refresh, use the artifact's JSON manifest for the updated counts and evaluation.
+The original model used subjects 1 and 2, with three sessions each.
 The lapse label is an incorrect/missed response or a correct-response RT above
 that subject's 75th percentile. Of 720 trials, 329 passed the fixed artifact
 screen. Leave-one-subject-out mean AUROC is 0.405, so this model did not

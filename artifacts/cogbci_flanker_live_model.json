@@ -39,39 +39,139 @@
         "n": 261,
         "lapses": 102,
         "reaction_time_75th_percentile_s": 0.8325000000000067,
-        "auc": 0.3431372549019608,
-        "accuracy_at_0_5": 0.3371647509578544
+        "auc": 0.6238130472314712,
+        "accuracy_at_0_5": 0.6091954022988506
       },
       {
         "held_out_subject": 2,
         "n": 68,
         "lapses": 19,
         "reaction_time_75th_percentile_s": 0.8259999999999934,
-        "auc": 0.4661654135338346,
-        "accuracy_at_0_5": 0.35294117647058826
+        "auc": 0.4532760472610096,
+        "accuracy_at_0_5": 0.39705882352941174
+      },
+      {
+        "held_out_subject": 3,
+        "n": 349,
+        "lapses": 102,
+        "reaction_time_75th_percentile_s": 0.7160000000000082,
+        "auc": 0.44427244582043346,
+        "accuracy_at_0_5": 0.5959885386819485
+      },
+      {
+        "held_out_subject": 4,
+        "n": 252,
+        "lapses": 100,
+        "reaction_time_75th_percentile_s": 0.75,
+        "auc": 0.5480921052631579,
+        "accuracy_at_0_5": 0.5793650793650794
+      },
+      {
+        "held_out_subject": 5,
+        "n": 166,
+        "lapses": 67,
+        "reaction_time_75th_percentile_s": 1.353500000000011,
+        "auc": 0.4286145032413689,
+        "accuracy_at_0_5": 0.4397590361445783
+      },
+      {
+        "held_out_subject": 6,
+        "n": 247,
+        "lapses": 116,
+        "reaction_time_75th_percentile_s": 0.7750000000000004,
+        "auc": 0.46847854698604896,
+        "accuracy_at_0_5": 0.47368421052631576
+      },
+      {
+        "held_out_subject": 7,
+        "n": 282,
+        "lapses": 74,
+        "reaction_time_75th_percentile_s": 0.617999999999995,
+        "auc": 0.48616164241164245,
+        "accuracy_at_0_5": 0.4929078014184397
+      },
+      {
+        "held_out_subject": 8,
+        "n": 236,
+        "lapses": 73,
+        "reaction_time_75th_percentile_s": 0.6580000000000155,
+        "auc": 0.48743591898478855,
+        "accuracy_at_0_5": 0.6016949152542372
+      },
+      {
+        "held_out_subject": 9,
+        "n": 250,
+        "lapses": 73,
+        "reaction_time_75th_percentile_s": 0.5580000000000052,
+        "auc": 0.525036761860537,
+        "accuracy_at_0_5": 0.616
+      },
+      {
+        "held_out_subject": 10,
+        "n": 349,
+        "lapses": 102,
+        "reaction_time_75th_percentile_s": 0.6225000000000023,
+        "auc": 0.5500912915773597,
+        "accuracy_at_0_5": 0.5386819484240688
+      },
+      {
+        "held_out_subject": 11,
+        "n": 125,
+        "lapses": 46,
+        "reaction_time_75th_percentile_s": 0.6439999999999948,
+        "auc": 0.4898183819482664,
+        "accuracy_at_0_5": 0.464
+      },
+      {
+        "held_out_subject": 16,
+        "n": 245,
+        "lapses": 62,
+        "reaction_time_75th_percentile_s": 0.6659999999999968,
+        "auc": 0.5149832540102239,
+        "accuracy_at_0_5": 0.4163265306122449
       }
     ],
-    "mean_auc": 0.4046513342178977,
+    "mean_auc": 0.5016728288830258,
     "training_subjects": [
       1,
-      2
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      16
     ],
-    "training_sessions": 6,
-    "available_trials": 720,
+    "training_sessions": 36,
+    "available_trials": 4320,
     "retained_trials_by_subject": {
       "1": 261,
-      "2": 68
+      "2": 68,
+      "3": 349,
+      "4": 252,
+      "5": 166,
+      "6": 247,
+      "7": 282,
+      "8": 236,
+      "9": 250,
+      "10": 349,
+      "11": 125,
+      "16": 245
     },
-    "pooled_training_trials": 329,
-    "pooled_training_lapses": 121,
+    "pooled_training_trials": 2830,
+    "pooled_training_lapses": 936,
     "lapse_definition": "incorrect or missed response, or correct-response RT above the subject's 75th percentile"
   },
   "software": {
-    "numpy": "2.3.5",
-    "scipy": "1.17.1",
-    "scikit_learn": "1.9.1",
-    "mne": "1.13.2",
-    "joblib": "1.6.0"
+    "numpy": "2.5.2",
+    "scipy": "1.18.0",
+    "scikit_learn": "1.9.0",
+    "mne": "1.12.1",
+    "joblib": "1.5.3"
   },
   "warning": "Experimental demonstration model. Held-out evaluation did not establish prediction above chance and this is not a validated cognitive-load measure."
 }

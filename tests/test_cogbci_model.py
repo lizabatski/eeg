@@ -34,8 +34,14 @@ class CogBciModelTests(unittest.TestCase):
         model = load_deployment_model(artifact)
         self.assertEqual(model.model_id, COGBCI_MODEL_ID)
         self.assertEqual(model.label, "cogbci_flanker_lapse")
-        self.assertEqual(model.evaluation["training_subjects"], [1, 2])
-        self.assertEqual(model.evaluation["training_sessions"], 6)
+        subjects = model.evaluation["training_subjects"]
+        self.assertGreaterEqual(len(subjects), 2)
+        self.assertEqual(subjects, sorted(set(subjects)))
+        self.assertEqual(model.evaluation["training_sessions"], 3 * len(subjects))
+        self.assertEqual(
+            [fold["held_out_subject"] for fold in model.evaluation["subjects"]],
+            subjects,
+        )
 
 
 if __name__ == "__main__":

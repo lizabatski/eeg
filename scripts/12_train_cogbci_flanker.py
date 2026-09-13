@@ -30,9 +30,10 @@ def main() -> None:
         type=Path,
         default=ROOT / "artifacts" / "cogbci_flanker_live_model.json",
     )
+    parser.add_argument("--subjects", nargs="+", type=int, help="Explicit participant IDs (all three sessions required)")
     args = parser.parse_args()
 
-    model = train_cogbci_model(args.data_root)
+    model = train_cogbci_model(args.data_root, subjects=args.subjects)
     save_deployment_model(model, args.model, args.manifest)
     print(json.dumps(model.manifest(), indent=2))
     print(f"Saved model: {args.model}")

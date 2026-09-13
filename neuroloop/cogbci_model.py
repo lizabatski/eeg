@@ -156,9 +156,20 @@ def _subject_arrays(
 
 def train_cogbci_model(
     data_root: str | Path,
+    *,
+    subjects: Iterable[int] | None = None,
 ) -> DeploymentModel:
     root = Path(data_root)
     set_files = sorted(root.glob("sub-*/ses-S*/eeg/Flanker.set"))
+    if subjects is not None:
+        requested = set(subjects)
+        if len(requested) < 2:
+            raise ValueError("Select at least two subjects")
+        set_files = [p for p in set_files if int(p.parents[2].name[4:]) in requested]
+        for subject in requested:
+            sessions = {p.parents[1].name for p in set_files if p.parents[2].name == f"sub-{subject:02}"}
+            if sessions != {"ses-S1", "ses-S2", "ses-S3"}:
+                raise ValueError(f"Subject {subject} requires all three sessions")
     if not set_files:
         raise FileNotFoundError(f"No extracted COG-BCI Flanker sessions in {root}")
     by_subject: dict[int, list[FlankerWindow]] = {}

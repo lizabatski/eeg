@@ -9,7 +9,27 @@ Flanker, N-back, PVT, MATB, and resting-state recordings. Version 4 fixes an
 electrode-name mismatch. Preserve the downloaded Zenodo metadata for attribution
 and the release's rights information.
 
-## Current download scope: five participants, flanker only
+## Full-dataset refresh: all 29 participants, Flanker only
+
+Run `python scripts/13_refresh_cogbci.py` to download all participants and
+automatically retrain the logistic regression after checksum verification.
+The job uses four concurrent transfers, resumes partial archives, and supports
+the extra nested subject directory found in participant 3's source archive.
+It retains only the Flanker EEG, behavioral, and channel-location files.
+
+Progress: `results/cogbci_refresh.log`.
+Status and final evaluation: `results/cogbci_refresh_status.json`.
+Updated model: `artifacts/cogbci_flanker_live_model.joblib` and its JSON manifest.
+The existing model is backed up before replacement. A failed or incomplete
+download does not trigger training. Do not run multiple refresh jobs at once.
+
+For download only, use:
+
+```bat
+python scripts/08_download_cogbci.py --all-subjects --flanker-only --workers 4
+```
+
+## Historical initial download scope: five participants, Flanker only
 
 Participants 01?05 are being downloaded sequentially. Each source archive is
 verified against Zenodo's size and MD5, then only the three sessions' flanker EEG,
