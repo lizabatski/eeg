@@ -431,14 +431,14 @@
   ],
   "status": "published",
   "stats": {
-    "downloads": 118729,
-    "unique_downloads": 53606,
-    "views": 11240,
-    "unique_views": 9927,
-    "version_downloads": 71532,
-    "version_unique_downloads": 28379,
-    "version_unique_views": 3751,
-    "version_views": 4517
+    "downloads": 118835,
+    "unique_downloads": 53688,
+    "views": 11332,
+    "unique_views": 10004,
+    "version_downloads": 71547,
+    "version_unique_downloads": 28391,
+    "version_unique_views": 3771,
+    "version_views": 4544
   },
   "state": "done",
   "submitted": true

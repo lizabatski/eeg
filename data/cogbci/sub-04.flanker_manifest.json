@@ -1,0 +1,77 @@
+{
+  "source_checksum": "md5:613ae1a3937261ba07ff239f80f6ebf9",
+  "files": [
+    {
+      "path": "sub-04/ses-S1/behavioral/Flanker.mat",
+      "archive_path": "sub-04/sub-04/ses-S1/behavioral/Flanker.mat",
+      "size": 2309,
+      "sha256": "a3d26af774a1d4c5107575971ac0611968dd55e4a78322d8313e9c1a3a3ab2aa"
+    },
+    {
+      "path": "sub-04/ses-S1/chanlocs/get_chanlocs.txt",
+      "archive_path": "sub-04/sub-04/ses-S1/chanlocs/get_chanlocs.txt",
+      "size": 2479,
+      "sha256": "827827350a99d0aadb6c9e03661c69d112b053fab3e42628f459d63f32699d8c"
+    },
+    {
+      "path": "sub-04/ses-S1/eeg/Flanker.fdt",
+      "archive_path": "sub-04/sub-04/ses-S1/eeg/Flanker.fdt",
+      "size": 76103748,
+      "sha256": "52c9524337b2a3b3ea6f28d37a14a9ac771444e8689a347200cfcf3f9c420a84"
+    },
+    {
+      "path": "sub-04/ses-S1/eeg/Flanker.set",
+      "archive_path": "sub-04/sub-04/ses-S1/eeg/Flanker.set",
+      "size": 1605320,
+      "sha256": "3acdc58db71818278e190d22b480bdc0923f86242916cd2ded0e3e61f35b89e5"
+    },
+    {
+      "path": "sub-04/ses-S2/behavioral/Flanker.mat",
+      "archive_path": "sub-04/sub-04/ses-S2/behavioral/Flanker.mat",
+      "size": 2208,
+      "sha256": "1e7b96f4eec1ab59cb927ce79cbe456cd02cbb89614ccf83d2f02440dc7560b1"
+    },
+    {
+      "path": "sub-04/ses-S2/chanlocs/get_chanlocs.txt",
+      "archive_path": "sub-04/sub-04/ses-S2/chanlocs/get_chanlocs.txt",
+      "size": 2479,
+      "sha256": "403f31f97d81d5cd590e6815f6b26e321771c8c86123f2fb32358c29d585379a"
+    },
+    {
+      "path": "sub-04/ses-S2/eeg/Flanker.fdt",
+      "archive_path": "sub-04/sub-04/ses-S2/eeg/Flanker.fdt",
+      "size": 76208580,
+      "sha256": "82b82f2daf13e4842ed6cd3372b8a1696b807986f0438a984e215b843964fac0"
+    },
+    {
+      "path": "sub-04/ses-S2/eeg/Flanker.set",
+      "archive_path": "sub-04/sub-04/ses-S2/eeg/Flanker.set",
+      "size": 1583472,
+      "sha256": "43ddd2306a9b8a1a8e12ca3545b2be3d2facbf5254adf0eb55917b2a59f43d6c"
+    },
+    {
+      "path": "sub-04/ses-S3/behavioral/Flanker.mat",
+      "archive_path": "sub-04/sub-04/ses-S3/behavioral/Flanker.mat",
+      "size": 2170,
+      "sha256": "480a9598c119115ba4ce846565f8d21ba4f13bb137219de3e6e9b47eda69c75d"
+    },
+    {
+      "path": "sub-04/ses-S3/chanlocs/get_chanlocs.txt",
+      "archive_path": "sub-04/sub-04/ses-S3/chanlocs/get_chanlocs.txt",
+      "size": 2479,
+      "sha256": "86d5a1ee37fefd72e1b12bcb9f61e5698c70281a003af325acffcd0e2ad77c3d"
+    },
+    {
+      "path": "sub-04/ses-S3/eeg/Flanker.fdt",
+      "archive_path": "sub-04/sub-04/ses-S3/eeg/Flanker.fdt",
+      "size": 76506696,
+      "sha256": "574e641cf8574eb9b0432215521374e31b0abfd63a7d21ef94dcad26af345405"
+    },
+    {
+      "path": "sub-04/ses-S3/eeg/Flanker.set",
+      "archive_path": "sub-04/sub-04/ses-S3/eeg/Flanker.set",
+      "size": 1591576,
+      "sha256": "b529e8a707650a81bea893aa31c4b2867bed48dc1ba2c161176f7a6fe7358828"
+    }
+  ]
+}
