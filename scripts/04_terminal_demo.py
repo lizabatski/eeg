@@ -1,4 +1,17 @@
-"""Replay ANT Flip Cup EEG through a causal processor; emit frontend snapshots."""
+"""Replay ANT Flip Cup EEG through a causal processor; emit frontend snapshots.
+
+Team: Monster's Inc
+
+Replays a recorded ``.cnt`` file at (adjustable) real-time speed through the
+same causal 1-40 Hz Butterworth filter used live, accumulates a 4-second
+sliding window, and computes the alpha/theta ratio feature once 30 clean
+calibration windows have been collected. Each subsequent window is z-scored
+against that rolling baseline; a z-score above 1.5 emits a "pause and reset"
+cue, subject to a 10-second cooldown so a single sustained excursion cannot
+fire repeated cues. This mirrors the live intervention rule (see
+:mod:`neuroloop.loop`) but reads from a file instead of a live stream, so the
+frontend visualization can be exercised without hardware.
+"""
 from __future__ import annotations
 
 import argparse

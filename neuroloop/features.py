@@ -1,5 +1,50 @@
 """
-core feature extraction
+Core spectral feature extraction shared by every training script and the live loop.
+
+Team: Monster's Inc
+
+Algorithm summary
+------------------
+Each EEG window is converted into a small vector of band-power features:
+
+1. :func:`compute_psd` estimates the power spectral density with Welch's
+   method (``scipy.signal.welch``), averaging overlapping sub-segments to
+   trade a little frequency resolution for a much less noisy estimate than a
+   single FFT would give on a short window.
+2. :func:`band_power` integrates that PSD between two frequency edges
+   (trapezoid rule when at least two bins fall in the band, otherwise a
+   flat-rectangle approximation) to get absolute power in a band.
+3. :func:`extract_features` divides each band's power by the total power in
+   ``TOTAL_BAND`` to get *relative* power -- this cancels out subject- and
+   session-level differences in overall signal amplitude (electrode
+   impedance, skull thickness, gel condition) that would otherwise swamp the
+   cognitive signal -- and takes ``log10`` of the ratio so the values are
+   roughly normally distributed instead of heavily right-skewed.
+4. The features are computed separately for the frontal-midline and
+   posterior sensor groups (see :data:`FRONTAL_MIDLINE` / :data:`POSTERIOR`)
+   because attention-related alpha/theta shifts are topographically
+   distinct: posterior alpha tracks visual disengagement, frontal theta
+   tracks executive/task engagement.
+5. ``ratio_alpha_theta`` (posterior log-alpha minus frontal log-theta) is the
+   headline contrast. Because the inputs are already in log space, a
+   subtraction here is equivalent to a ratio of the underlying powers.
+6. Artefact screening (:func:`window_is_clean`, :class:`AdaptiveRejector`)
+   rejects windows whose peak-to-peak amplitude is implausibly large for a
+   real EEG or EOG signal, since electrode pops and blinks would otherwise
+   inject huge outlier power into the bands above and corrupt the estimate.
+   :class:`AdaptiveRejector` improves on a fixed threshold by fitting
+   ``median + k * MAD`` per channel from a calibration block, so the
+   threshold adapts to each person's and each session's actual noise floor
+   instead of a constant tuned on one recording.
+7. :class:`EOGRegressor` removes eye-movement contamination from the EEG
+   channels by fitting a linear model ``EEG(t) = true EEG(t) + beta * EOG(t)``
+   per channel (least-squares beta = covariance over EOG variance), then
+   subtracting ``beta * EOG`` back out. Coefficients should fall off with
+   distance from the eyes; that pattern is the sanity check that the fit
+   found real ocular propagation and not noise.
+8. :func:`count_blinks` is a simple threshold-crossing counter with a
+   minimum-separation debounce, used only as a diagnostic (blink rate is a
+   drowsiness marker) and not part of the feature vector.
 """
 
 from __future__ import annotations

@@ -1,4 +1,31 @@
-"""Interchangeable recorded and live EEG sources for the waveform server."""
+"""Interchangeable recorded and live EEG sources for the waveform server.
+
+Team: Monster's Inc
+
+All three source classes (:class:`RecordedReplaySource`, :class:`UnicornLslSource`,
+:class:`AntLslSource`) implement the same :class:`EegSource` protocol -- an
+``async def chunks()`` generator yielding channel-major microvolt samples
+with source-relative timestamps, plus a ``metadata`` attribute describing the
+channel names and sample rate. This lets the WebSocket server and the
+:class:`~flanker.eeg_panel.EegPanelClient` display live hardware, an LSL
+stream, or a recorded file identically without caring which one is active.
+
+Key design points:
+
+* :class:`RecordedReplaySource` paces itself against wall-clock time
+  (``loop.time()``) scaled by ``speed``, so a recording replays at (or
+  faster/slower than) the rate it was originally captured, rather than as
+  fast as the disk can be read.
+* LSL channel selection (:func:`_select_ant_channels`,
+  :func:`_select_recording_channels`) prefers explicitly requested channel
+  names, and otherwise falls back to picking every channel whose declared
+  unit is a recognized voltage unit (:func:`_microvolt_multiplier`) --
+  refusing to guess when metadata is ambiguous or missing, since a silent
+  wrong channel would corrupt every downstream feature.
+* :func:`_lsl_channel_metadata` reads the full per-channel XML description
+  from an LSL stream rather than inventing channel names from an index, so a
+  channel is only ever selected when it is unambiguously identified.
+"""
 from __future__ import annotations
 
 import asyncio

@@ -1,7 +1,7 @@
 """
 Step 3 -- fit artefact thresholds from a calibration block instead of guessing.
 
-Team <NUMBER>: <MEMBER NAMES>
+Team: Monster's Inc
 NOVA Buildathon 2026 / ANT Neuro challenge.
 
 WHY

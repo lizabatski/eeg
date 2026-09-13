@@ -1,5 +1,7 @@
 """
-loading and preprocessing ANT Neuro ``.cnt`` recordings.
+Loading and preprocessing ANT Neuro ``.cnt`` recordings.
+
+Team: Monster's Inc
 """
 
 from __future__ import annotations

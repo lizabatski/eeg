@@ -1,4 +1,44 @@
-"""Deployment-compatible Flip Cup model training and live feature extraction."""
+"""Deployment-compatible Flip Cup model training and live feature extraction.
+
+Team: Monster's Inc
+
+Algorithm summary
+------------------
+This module is the shared contract between offline training scripts and the
+live loop (:mod:`neuroloop.loop`) -- both must build feature vectors the same
+way, or a model trained offline would misbehave at run time.
+
+* :class:`CausalBandpass` wraps a fourth-order Butterworth band-pass
+  (``FILTER_BAND_HZ``, second-order-sections form for numerical stability) as
+  a *causal*, stateful filter: :meth:`CausalBandpass.process` carries the
+  filter's internal state (``zi``) across calls, so filtering the same
+  recording one chunk at a time gives bit-identical output to filtering it
+  all at once. This matters because a live stream arrives in chunks and must
+  never use a future sample to filter a past one -- a non-causal (e.g.
+  zero-phase ``filtfilt``) filter would leak future information into
+  "pre-stimulus" features and make offline accuracy fictional.
+* :func:`resample_model_window` resamples whatever the live amplifier's
+  native rate is (e.g. 500 Hz) down to the fixed ``TARGET_SAMPLE_RATE_HZ``
+  the model was trained at, using a rational-ratio polyphase resampler so the
+  feature extraction code never has to know the source hardware's rate.
+* :func:`window_is_clean` applies the same fixed peak-to-peak artefact
+  threshold (``ARTIFACT_THRESHOLD_VOLTS``) used at training time, so a noisy
+  window is rejected identically online and offline.
+* :func:`extract_model_vector` chains resample -> shape/length check ->
+  :func:`~neuroloop.features.extract_features` -> fixed-order vector, so the
+  live loop and every training script produce numerically identical feature
+  vectors for the same raw window.
+* :class:`DeploymentModel` bundles the fitted scikit-learn pipeline together
+  with every parameter needed to reproduce its inputs (channels, feature
+  order, window length, sample rate, filter settings) plus the held-out
+  evaluation metrics, so a saved model can be validated against the current
+  code's contract before it is trusted at run time (see
+  :func:`load_deployment_model`).
+* :func:`build_pipeline` is plain ``StandardScaler`` + class-balanced L2
+  logistic regression: a small, interpretable classifier appropriate for the
+  limited number of trials available, rather than something flexible enough
+  to memorise the training set.
+"""
 from __future__ import annotations
 
 from dataclasses import dataclass

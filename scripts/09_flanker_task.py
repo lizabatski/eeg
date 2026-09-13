@@ -1,4 +1,15 @@
-"""Run the COG-BCI-compatible PsychoPy flanker task."""
+"""Run the COG-BCI-compatible PsychoPy flanker task.
+
+Team: Monster's Inc
+
+Command-line entry point for a full data-collection session: parses engine
+and timing options, constructs either the experimental
+:class:`~neuroloop.loop.LiveEngine` (real ANT LSL stream + trained model,
+with an optional flip-cup replay fallback if live EEG is unavailable) or the
+seeded :class:`~neuroloop.loop.MockEngine` for rehearsal without hardware,
+and hands the engine to :func:`flanker.task.run_experiment`, which owns the
+actual calibration + control/intervention block trial loop.
+"""
 from __future__ import annotations
 
 import argparse

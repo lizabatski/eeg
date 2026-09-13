@@ -1,4 +1,15 @@
-"""Recompute held-out predictions and export the deployed cohort's ROC plot."""
+"""Recompute held-out predictions and export the deployed cohort's ROC plot.
+
+Team: Monster's Inc
+
+Re-runs the same leave-one-participant-out evaluation as
+:func:`neuroloop.cogbci_model.train_cogbci_model` (refit on every other
+participant, predict the held-out one) directly from the deployed model's
+manifest, so the exported ROC curves and mean AUROC are guaranteed to match
+what is actually deployed (checked with an ``assert`` against the manifest's
+recorded mean AUROC) rather than being computed from a possibly-stale cached
+result.
+"""
 import json
 from pathlib import Path
 import sys

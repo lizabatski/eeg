@@ -1,4 +1,15 @@
-"""Stream recorded ANT, live Unicorn, or live ANT LSL EEG over WebSocket."""
+"""Stream recorded ANT, live Unicorn, or live ANT LSL EEG over WebSocket.
+
+Team: Monster's Inc
+
+Each client connection selects a source via a ``?source=`` query parameter
+(``replay``, ``unicorn``, or ``ant``); :func:`create_source` constructs the
+matching :class:`~neuroloop.eeg_sources.EegSource` on a worker thread (the
+underlying MNE/LSL libraries are blocking), then streams one ``metadata``
+message followed by a ``samples`` message per chunk, so any number of
+frontends (e.g. the PsychoPy panel or the web viewer) can watch the same kind
+of EEG feed without depending on which concrete source is behind it.
+"""
 from __future__ import annotations
 
 import argparse

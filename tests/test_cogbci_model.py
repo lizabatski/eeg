@@ -1,3 +1,8 @@
+"""Tests for neuroloop.cogbci_model: stimulus/response pairing and the deployed model.
+
+Team: Monster's Inc
+"""
+
 from pathlib import Path
 import unittest
 

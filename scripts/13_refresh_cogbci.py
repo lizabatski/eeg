@@ -1,7 +1,18 @@
 """Download all COG-BCI Flanker subjects, then validate and replace the live model.
 
+Team: Monster's Inc
+
 Progress and errors are written to results/cogbci_refresh.log and
 results/cogbci_refresh_status.json. Safe to rerun after an interrupted download.
+
+Pipeline: download every subject's archive (script 08, checksum-verified),
+train a *candidate* model into a separate file (script 12) rather than
+overwriting the deployed one directly, sanity-check the candidate (it must
+cover all 29 subjects / 87 sessions, report a finite held-out AUROC, and
+produce a probability for a dummy input) and only then atomically replace the
+deployed model files, first backing up the previous ones. This staged
+candidate-then-swap sequence means a failed or partial refresh can never
+leave the deployed model in a broken or half-written state.
 """
 from datetime import datetime, timezone
 import importlib.util

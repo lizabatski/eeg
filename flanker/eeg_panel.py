@@ -1,4 +1,20 @@
-"""Non-blocking EEG WebSocket client for the PsychoPy task panel."""
+"""Non-blocking EEG WebSocket client for the PsychoPy task panel.
+
+Team: Monster's Inc
+
+:class:`EegPanelClient` runs its WebSocket connection on a background thread
+(``asyncio.run`` inside a daemon :class:`threading.Thread`) so a network
+hiccup can never stall a PsychoPy stimulus frame -- the task-facing
+:meth:`~EegPanelClient.snapshot` method only ever reads the latest values
+under a lock and returns immediately. If the live EEG source drops,
+:meth:`_receive_with_fallback` automatically reconnects to a recorded
+flip-cup replay stream instead, clearly flagging the switch (``is_replay_fallback``)
+so anything downstream can distinguish a live signal from a rehearsed one.
+Incoming sample sequence numbers are used to detect gaps or restarts
+(:meth:`_handle_samples`): a sequence moving backwards is an error, and a
+sequence skipping forward clears the rolling buffer so stale pre-gap samples
+are never plotted next to fresh ones.
+"""
 from __future__ import annotations
 
 import asyncio

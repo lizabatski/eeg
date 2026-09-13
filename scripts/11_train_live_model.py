@@ -1,4 +1,12 @@
-"""Train and save the experimental Flip Cup model used by LiveEngine."""
+"""Train and save the experimental Flip Cup model used by LiveEngine.
+
+Team: Monster's Inc
+
+Thin CLI wrapper around :func:`neuroloop.live_model.train_deployment_model`
+(leave-one-session-out evaluation, then a final pooled fit -- see that
+module's docstring for the algorithm) and
+:func:`~neuroloop.live_model.save_deployment_model`.
+"""
 from __future__ import annotations
 
 import argparse

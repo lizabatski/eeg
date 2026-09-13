@@ -1,3 +1,8 @@
+"""Tests for neuroloop.eeg_sources: LSL channel selection and replay/live sources.
+
+Team: Monster's Inc
+"""
+
 import asyncio
 import math
 from pathlib import Path

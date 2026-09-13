@@ -1,3 +1,9 @@
+"""Tests for neuroloop.live_model and LiveEngine: causal filtering, the model
+contract, and the calibration/intervention state machine.
+
+Team: Monster's Inc
+"""
+
 import asyncio
 from pathlib import Path
 from types import SimpleNamespace

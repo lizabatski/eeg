@@ -1,3 +1,8 @@
+"""Tests for scripts/08_download_cogbci.py's archive extraction and verification.
+
+Team: Monster's Inc
+"""
+
 import importlib.util
 import json
 from pathlib import Path

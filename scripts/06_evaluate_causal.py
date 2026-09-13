@@ -1,4 +1,18 @@
-"""Reproducible fixed-window, held-out-session evaluation and ROC export."""
+"""Reproducible fixed-window, held-out-session evaluation and ROC export.
+
+Team: Monster's Inc
+
+For each of the two Flip Cup sessions, fits a scaler + class-balanced
+logistic regression on the *other* session and evaluates it on the held-out
+one (leave-one-session-out), reporting ROC AUC and accuracy against a
+majority-class baseline. Significance is checked with a label-permutation
+test: shuffle each session's labels 1,000 times, refit and re-evaluate every
+time, and compare the observed mean AUC against that null distribution
+(p = fraction of shuffled AUCs at or above the observed one). This is the
+same causal-filter, pre-cue-only, no-peeking methodology described in
+scripts/02_train_flipcup.py, packaged to regenerate the reported numbers and
+the ROC plot deterministically (fixed random seeds throughout).
+"""
 from pathlib import Path
 import json
 import sys

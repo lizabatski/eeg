@@ -1,6 +1,6 @@
 """NeuroLoop -- closed-loop EEG lapse prediction.
 
-Team <NUMBER>: <MEMBER NAMES>
+Team: Monster's Inc
 NOVA Buildathon 2026 / ANT Neuro challenge.
 """
 

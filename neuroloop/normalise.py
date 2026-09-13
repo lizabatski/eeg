@@ -1,6 +1,18 @@
 """
-per-person calibration.
+Per-person calibration.
 
+Team: Monster's Inc
+
+:class:`BaselineNormaliser` z-scores a feature vector against a per-person
+baseline: fit ``mean``/``std`` over a calibration block of windows, then
+``transform`` subtracts the mean and divides by the std for every later
+window. This expresses each feature as "how far from this person's own
+resting state," which controls for large between-person differences in
+absolute band power (skull thickness, electrode contact, individual EEG
+amplitude) that would otherwise dominate a pooled-population comparison. A
+std of exactly zero (a dead-flat feature) is floored to machine epsilon so a
+degenerate channel produces a large finite z-score instead of a division by
+zero.
 """
 
 from __future__ import annotations

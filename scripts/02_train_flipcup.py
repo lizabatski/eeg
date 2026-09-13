@@ -1,7 +1,7 @@
 """
 Step 2 -- does pre-cue EEG predict whether the upcoming attempt fails?
 
-Team <NUMBER>: <MEMBER NAMES>
+Team: Monster's Inc
 NOVA Buildathon 2026 / ANT Neuro challenge.
 
 WHAT THIS TESTS

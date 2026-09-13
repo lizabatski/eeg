@@ -1,4 +1,18 @@
-"""Descriptive rest-versus-task alpha check with causal preprocessing."""
+"""Descriptive rest-versus-task alpha check with causal preprocessing.
+
+Team: Monster's Inc
+
+A simpler, purely descriptive companion to scripts/01_validate_spectral.py:
+using the same causal (one-pass, not zero-phase) 1-40 Hz Butterworth filter
+the live system uses, this splits the EO-EC recording into its marker-defined
+rest and task blocks, discards the first four seconds after each transition
+to reduce carryover from the preceding condition, computes posterior alpha
+for every clean 2-second sub-window, and reports the rest/task geometric
+power ratio. It is a sanity check that causal filtering does not destroy the
+alpha effect validated (with a zero-phase filter) in step 1 -- not a
+prediction-accuracy result, and it deliberately does not attempt to isolate
+pure eyes-open/closed effects from task-engagement effects.
+"""
 import csv
 import json
 from pathlib import Path

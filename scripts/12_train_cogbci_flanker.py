@@ -1,4 +1,12 @@
-"""Train and save the experimental COG-BCI Flanker lapse model."""
+"""Train and save the experimental COG-BCI Flanker lapse model.
+
+Team: Monster's Inc
+
+Thin CLI wrapper around :func:`neuroloop.cogbci_model.train_cogbci_model`
+(leave-one-participant-out evaluation, then a final pooled fit -- see that
+module's docstring for the full algorithm) and
+:func:`~neuroloop.live_model.save_deployment_model`.
+"""
 from __future__ import annotations
 
 import argparse

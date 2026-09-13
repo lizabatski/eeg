@@ -1,4 +1,38 @@
-"""COG-BCI-compatible Eriksen flanker task driven by a LoopEngine."""
+"""COG-BCI-compatible Eriksen flanker task driven by a LoopEngine.
+
+Team: Monster's Inc
+
+Algorithm notes
+----------------
+* :func:`build_trials` generates a trial order that is balanced (equal counts
+  of each of the four arrow patterns in :data:`PATTERNS`) and pseudorandom,
+  but rejects orders with long runs: it shuffles with a seeded RNG up to
+  10,000 times and keeps the first shuffle where no congruency condition or
+  correct-response key repeats more than 4 times in a row
+  (:func:`_longest_run`). A long run of the same condition or the same
+  correct key would let a participant fall into a motor habit instead of
+  actually reading each stimulus, which would confound reaction time with
+  response strategy rather than attentional state.
+* :func:`should_show_intervention` / :func:`cognitive_load_feedback` gate all
+  participant-visible feedback on both the experimental condition
+  (``feedback_enabled``, i.e. which block the participant is in) and the
+  freshness of the engine's state (``state.status == "ok"``). A stale or
+  uncalibrated engine estimate is deliberately never shown or acted on, so a
+  stalled amplifier degrades to "no feedback" rather than misleading the
+  participant.
+* :func:`run_experiment` and :func:`_run_trial` implement the trial loop
+  itself: present a fixation, poll the engine's current state
+  (:meth:`~neuroloop.loop.LoopEngine.state`, which never blocks), optionally
+  show a "pause and reset" cue, present the stimulus for a frame-accurate
+  duration (:func:`_verify_frame_timing` measures the real display refresh
+  rate rather than assuming 60 Hz, since a 16 ms stimulus is only exact if
+  the frame count divides the true refresh interval evenly), collect the
+  response within a jittered response window, then log every timing and
+  state field needed for later analysis (:data:`CSV_FIELDS`). Event marker
+  codes (:func:`stimulus_code`, :func:`response_code`, :func:`feedback_code`)
+  follow the COG-BCI dataset's numbering so recordings from this task line up
+  with the reference dataset's trigger scheme.
+"""
 from __future__ import annotations
 
 import csv

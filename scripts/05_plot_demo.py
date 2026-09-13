@@ -1,4 +1,12 @@
-"""Export a slide-ready plot from the terminal demo's JSONL snapshots."""
+"""Export a slide-ready plot from the terminal demo's JSONL snapshots.
+
+Team: Monster's Inc
+
+Reads the ``demo_states.jsonl`` output of scripts/04_terminal_demo.py and
+plots the rolling alpha/theta baseline z-score over time, marking the
+warm-up period, the experimental cue threshold, and every emitted reset cue.
+Purely a visualization step; it performs no analysis of its own.
+"""
 import json
 from pathlib import Path
 

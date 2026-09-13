@@ -1,3 +1,8 @@
+"""Tests for the flanker task's trial generation, EEG panel, and engine gating.
+
+Team: Monster's Inc
+"""
+
 import asyncio
 from collections import Counter
 import unittest

@@ -1,7 +1,6 @@
 """NeuroLoop: predict attention lapses from pre-stimulus EEG.
 
-Team number: <NUMBER - awaiting team details>
-Member names: <MEMBER NAMES - awaiting team details>
+Team: Monster's Inc
 
 Algorithm basis
 ---------------

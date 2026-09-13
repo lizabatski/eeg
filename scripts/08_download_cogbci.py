@@ -1,4 +1,20 @@
-"""Download COG-BCI v4 from Zenodo, verifying published checksums."""
+"""Download COG-BCI v4 from Zenodo, verifying published checksums.
+
+Team: Monster's Inc
+
+Downloads are resumable (HTTP Range requests against a ``.part`` file) and
+every downloaded archive is verified against the checksum Zenodo publishes
+in its record metadata before being trusted. With ``--flanker-only``,
+:func:`extract_flanker` pulls just the Flanker task's files out of each
+subject's zip (normalizing away a doubly-nested directory some archives
+contain), verifies each extracted file's own sha256 against a manifest it
+writes, and only then deletes the source archive -- so a corrupted or
+partial extraction is never silently accepted, and repeated runs skip work
+that :func:`extracted_verified` confirms is already correct on disk. Archive
+member paths are resolved and checked to stay inside the destination
+directory before being written, guarding against a malicious or malformed
+zip using ``..`` to escape it (path/zip-slip traversal).
+"""
 import argparse
 from concurrent.futures import ThreadPoolExecutor
 import hashlib

@@ -1,7 +1,7 @@
 """
 Step 1 -- prove the spectral pipeline is correct before trusting it.
 
-Team <NUMBER>: <MEMBER NAMES>
+Team: Monster's Inc
 NOVA Buildathon 2026 / ANT Neuro challenge.
 
 WHY THIS SCRIPT EXISTS

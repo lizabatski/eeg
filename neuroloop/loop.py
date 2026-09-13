@@ -2,7 +2,7 @@
 Closed-loop interface. This is the contract between the EEG pipeline and the
 flanker task -- the only surface the two halves share.
 
-Team <NUMBER>: <MEMBER NAMES>
+Team: Monster's Inc
 
 The task POLLS and never blocks. It calls state() just before presenting a
 stimulus and acts on what comes back. A background reader keeps the estimate

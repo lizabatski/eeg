@@ -1,4 +1,14 @@
-"""Run a short 30-trial flanker calibration/demo with the embedded EEG panel."""
+"""Run a short 30-trial flanker calibration/demo with the embedded EEG panel.
+
+Team: Monster's Inc
+
+A shortened version of scripts/09_flanker_task.py (30 trials, one
+intervention-enabled block, a 60-second calibration) intended for live
+demonstrations rather than data collection. Wires up either the experimental
+:class:`~neuroloop.loop.LiveEngine` (real ANT LSL stream + trained model) or
+the seeded :class:`~neuroloop.loop.MockEngine`, and hands it to
+:func:`flanker.task.run_experiment`, which owns the actual trial loop.
+"""
 from __future__ import annotations
 
 import argparse

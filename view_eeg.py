@@ -1,6 +1,8 @@
 """
 Open an ANT Neuro .cnt file and scroll through it.
 
+Team: Monster's Inc
+
 SETUP (once):
     pip install mne antio matplotlib PyQt6
 
